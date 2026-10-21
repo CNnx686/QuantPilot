@@ -1,3 +1,5 @@
+> 恢复说明（2026-10-21）：本文来自原 D 盘项目的开发记录。旧实验编号、指标、测试数量和验收结论属于历史记载，相关原始数据库及模型未恢复，不能作为当前版本的运行证据。当前启动方法见 [C 盘恢复与启动](C盘恢复与启动.md)。
+
 # MVP2 RL research: implementation and API contract
 
 This is **standalone Stable-Baselines3 PPO training in an isolated CPU runtime, followed by real Freqtrade 2026.9 action CSV replay**. It is not native FreqAI RL. Installed `ReinforcementLearner.fit`, `MyRLEnv.calculate_reward` and `Base3ActionRLEnv.step` were inspected: those hooks require PyTorch in the Freqtrade environment. Keeping PyTorch separate avoids changing the existing LightGBM/backtest environment. These research strategies are not added to the legacy experiment, release or deployment allowlists. `release_eligible` is always false.

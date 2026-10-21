@@ -51,9 +51,10 @@ def parse_result(archive: Path, config: dict, provenance: dict) -> dict:
     with zipfile.ZipFile(archive) as zf:
         names = [n for n in zf.namelist() if n.endswith(".json") and not n.endswith("_config.json")]
         raw = next((json.loads(zf.read(n)) for n in names if "strategy" in json.loads(zf.read(n))), None)
-    if raw is None or "SmaTrend" not in raw["strategy"]:
-        raise ValueError("Freqtrade archive does not contain SmaTrend results")
-    stat = raw["strategy"]["SmaTrend"]
+    strategy_name = config.get("strategy", "SmaTrend")
+    if raw is None or strategy_name not in raw["strategy"]:
+        raise ValueError(f"Freqtrade archive does not contain {strategy_name} results")
+    stat = raw["strategy"][strategy_name]
     required = {"trades", "starting_balance", "final_balance", "max_drawdown_account", "pairlist", "timeframe", "stake_currency", "total_trades", "backtest_start_ts", "backtest_end_ts", "backtest_start", "backtest_end", "profit_total_abs"}
     if required - stat.keys():
         raise ValueError(f"Incomplete engine artifact: {sorted(required - stat.keys())}")
@@ -90,7 +91,7 @@ def parse_result(archive: Path, config: dict, provenance: dict) -> dict:
     turnover = sum(float(t["amount"]) * (float(t["open_rate"]) + float(t["close_rate"])) for t in trades) / initial
     count = len(trades)
     result = {
-        "engine_version": importlib.metadata.version("freqtrade"), "strategy": "SmaTrend", "mode": "historical_backtest",
+        "engine_version": importlib.metadata.version("freqtrade"), "strategy": strategy_name, "mode": "historical_backtest",
         "metrics": {"net_return": profit / initial, "profit_abs": profit,
             "max_drawdown": float(stat["max_drawdown_account"]), "trades": count,
             "win_rate": sum(t["profit_abs"] > 0 for t in trades) / count if count else None,
@@ -114,8 +115,13 @@ def run_backtest(job: dict, job_dir: Path) -> dict:
         raise ValueError("Requested dates outside verified dataset")
     date.fromisoformat(cfg["start"])
     date.fromisoformat(cfg["end"])
-    if cfg["strategy"] != "SmaTrend" or not set(cfg["pairs"]).issubset(manifest["pairs"]):
+    if cfg["strategy"] not in ("SmaTrend", "FreqaiTrend") or not set(cfg["pairs"]).issubset(manifest["pairs"]):
         raise ValueError("Unsupported strategy or pair")
+    if cfg.get("dataset_id") and cfg["dataset_id"] != manifest["id"]:
+        raise ValueError("Requested dataset snapshot is no longer current")
+    is_ml = cfg["strategy"] == "FreqaiTrend"
+    if is_ml and not ("2025-04-01" <= cfg["start"] < cfg["end"] <= "2025-10-01"):
+        raise ValueError("ML period must remain inside declared development/validation windows")
     version = importlib.metadata.version("freqtrade")
     if version != "2026.9":
         raise RuntimeError(f"Expected tested Freqtrade 2026.9, got {version}")
@@ -130,10 +136,17 @@ def run_backtest(job: dict, job_dir: Path) -> dict:
         shutil.copy2(source, destination)
         if sha256(destination) != file["sha256"]:
             raise ValueError(f"行情文件被修改，哈希校验失败: {source.name}")
-    strategy = job_dir / "strategies" / "SmaTrend.py"
-    shutil.copy2(ROOT / "strategies" / "SmaTrend.py", strategy)
+    strategy = job_dir / "strategies" / (cfg["strategy"] + ".py")
+    shutil.copy2(ROOT / "strategies" / strategy.name, strategy)
     write_json(job_dir / "manifest.json", manifest)
     effective = engine_config(cfg, job_dir)
+    if is_ml:
+        from quantpilot.ml import freqai_config
+        (job_dir / "models").mkdir(exist_ok=True)
+        shutil.copy2(ROOT / "models" / "PurgedLightGBMRegressor.py", job_dir / "models" / "PurgedLightGBMRegressor.py")
+        effective["freqai"] = freqai_config("qp-week2-" + job_dir.name)
+        effective["freqaimodel"] = "PurgedLightGBMRegressor"
+        effective["freqaimodel_path"] = str(job_dir / "models")
     write_json(job_dir / "effective-config.json", effective)
     protocol = {"id": "week2-v1", "development": ["2025-04-01", "2025-07-01"],
                 "validation": ["2025-07-01", "2025-10-01"],
@@ -142,21 +155,31 @@ def run_backtest(job: dict, job_dir: Path) -> dict:
                 "strategy": cfg["strategy"], "freqai": effective.get("freqai"),
                 "definition_commit": "b3f71f1", "final_test_downloaded": False}
     write_json(job_dir / "research-protocol.json", protocol)
-    command = [sys.executable, "-m", "freqtrade", "backtesting", "--config", str(job_dir / "effective-config.json"), "--strategy", "SmaTrend", "--strategy-path", str(job_dir / "strategies"), "--timerange", timerange_argument(cfg["start"], cfg["end"]), "--cache", "none", "--export", "trades", "--backtest-directory", str(job_dir), "--no-color"]
+    command = [sys.executable, "-m", "freqtrade", "backtesting", "--config", str(job_dir / "effective-config.json"), "--strategy", cfg["strategy"], "--strategy-path", str(job_dir / "strategies"), "--timerange", timerange_argument(cfg["start"], cfg["end"]), "--cache", "none", "--export", "trades", "--backtest-directory", str(job_dir), "--no-color"]
     provenance = {"dataset_id": manifest["id"], "data_sha256": manifest["sha256"], "strategy_sha256": sha256(strategy), "adapter_sha256": sha256(Path(__file__)), "config_sha256": sha256(job_dir / "effective-config.json"), "source": manifest["source"], "engine_version": version, "command": command}
     provenance["protocol_sha256"] = sha256(job_dir / "research-protocol.json")
     command.extend(["--datadir", str(job_dir / "market"), "--data-format-ohlcv", "feather"])
+    if is_ml:
+        provenance["model_sha256"] = sha256(job_dir / "models" / "PurgedLightGBMRegressor.py")
+        provenance["ml_adapter_sha256"] = sha256(ROOT / "quantpilot" / "ml.py")
+        provenance["model_versions"] = {p: importlib.metadata.version(p) for p in ("lightgbm", "datasieve", "scikit-learn")}
     write_json(job_dir / "provenance.json", provenance)
     env = {k: v for k, v in os.environ.items() if not k.startswith("FREQTRADE__")}
     env.update({"PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"})
     with (job_dir / "engine.log").open("w", encoding="utf-8") as log:
         try:
-            completed = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, timeout=240, env=env, shell=False)
+            completed = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, timeout=1200 if is_ml else 240, env=env, shell=False)
         except subprocess.TimeoutExpired as error:
-            raise RuntimeError("Freqtrade 超过 240 秒运行上限；请检查网络与日志") from error
+            raise RuntimeError("Freqtrade 超过运行时间上限；请检查网络与日志") from error
     if completed.returncode:
         raise RuntimeError(f"Freqtrade 运行失败（exit {completed.returncode}），请查看引擎日志")
     archives = list(job_dir.glob("backtest-result-*.zip"))
     if len(archives) != 1:
         raise RuntimeError("Expected exactly one fresh Freqtrade result archive")
-    return parse_result(archives[0], cfg, provenance)
+    result = parse_result(archives[0], cfg, provenance)
+    if is_ml:
+        from quantpilot.ml import collect_ml_evidence
+        result["ml"] = collect_ml_evidence(job_dir, cfg)
+        result["assumptions"]["evaluation"] = "Predeclared rolling 90-day training / 30-day backtest; final period reserved and not run"
+        result["checks"].insert(2, {"name": "训练标签与预测时间审计", "status": "passed", "detail": "逐模型清除未可观察标签，核验预测时间及拟合记录；不替代完整未来数据专项检查"})
+    return result

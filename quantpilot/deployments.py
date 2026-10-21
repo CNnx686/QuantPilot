@@ -37,6 +37,16 @@ def owned(record):
     if not identity:
         return None
 
+    try:
+        process = psutil.Process(identity['pid'])
+        if (abs(process.create_time() - identity['created']) <= .05
+                and Path(process.exe()).resolve() == Path(identity['exe']).resolve()
+                and process.cmdline() == identity['cmdline']):
+            return process
+    except (psutil.NoSuchProcess, psutil.AccessDenied, KeyError):
+        pass
+    return None
+
 
 def stop_owned(record):
     """Windows venv python is a redirector: terminate its verified descendant tree too."""
@@ -73,15 +83,6 @@ def stop_owned(record):
                 if target:
                     target.kill()
                     target.wait(timeout=5)
-    try:
-        process = psutil.Process(identity['pid'])
-        if (abs(process.create_time() - identity['created']) <= .05
-                and Path(process.exe()).resolve() == Path(identity['exe']).resolve()
-                and process.cmdline() == identity['cmdline']):
-            return process
-    except (psutil.NoSuchProcess, psutil.AccessDenied, KeyError):
-        pass
-    return None
 
 
 def public(record):

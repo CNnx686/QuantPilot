@@ -26,6 +26,19 @@ def test_zero_trades_is_defined_without_fake_win_rate(tmp_path):
     assert result["checks"][-1]["status"] == "unverified"
 
 
+def test_archive_uses_requested_ml_strategy_and_rejects_wrong_strategy(tmp_path):
+    path = archive(tmp_path, [])
+    with zipfile.ZipFile(path) as zf:
+        content = json.loads(zf.read("synthetic.json"))
+    content["strategy"]["FreqaiTrend"] = content["strategy"].pop("SmaTrend")
+    with zipfile.ZipFile(path, "w") as zf:
+        zf.writestr("synthetic.json", json.dumps(content))
+    result = parse_result(path, {**CONFIG, "strategy": "FreqaiTrend"}, {})
+    assert result["strategy"] == "FreqaiTrend"
+    with pytest.raises(ValueError, match="SmaTrend"):
+        parse_result(path, CONFIG, {})
+
+
 def test_reconcile_fails_instead_of_publishing_false_balance(tmp_path):
     with pytest.raises(ValueError, match="reconcile"):
         parse_result(archive(tmp_path, [], final=1100), CONFIG, {})

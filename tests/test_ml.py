@@ -13,6 +13,14 @@ def load(relative):
     return module
 
 
+def test_freqai_config_supports_real_engine_warmup_calculation():
+    from freqtrade.data.dataprovider import DataProvider
+    from quantpilot.ml import freqai_config
+    config = {'timeframe': '1h', 'startup_candle_count': 60,
+              'freqai': freqai_config('warmup-regression')}
+    assert DataProvider(config, None).get_required_startup('1h') == 90 * 24 + 60
+
+
 def frame():
     close = 100 + np.sin(np.arange(160) / 5)
     return pd.DataFrame({"date": pd.date_range("2025-01-01", periods=160, freq="h", tz="UTC"),

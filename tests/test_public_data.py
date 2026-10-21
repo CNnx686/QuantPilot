@@ -59,7 +59,7 @@ def test_observation_time_future_publication_and_safe_content():
     b'<!DOCTYPE rss [<!ENTITY x SYSTEM "file:///secret">]><rss/>',
     b'<!DOCTYPE rss [<!ENTITY x "boom">]><rss/>',
     '<!DOCTYPE rss><rss/>'.encode('utf-16'), b'x'*512001,
-])
+], ids=['external-entity', 'internal-entity', 'utf16-doctype', 'oversized'])
 def test_unsafe_xml_rejected(raw):
     with pytest.raises((ValueError,UnicodeError)):
         news.parse('federal_reserve',raw)

@@ -10,7 +10,7 @@ def freqai_config(identifier):
             "backtest_period_days": 30, "save_backtest_models": True, "activate_tensorboard": False,
             "continual_learning": False, "feature_parameters": {"include_timeframes": ["1h"],
             "include_corr_pairlist": [], "label_period_candles": 6, "include_shifted_candles": 0,
-            "indicator_periods_candles": [], "shuffle_after_split": False},
+            "indicator_periods_candles": [48], "shuffle_after_split": False},
             "data_split_parameters": {"test_size": 0, "shuffle": False},
             "model_training_parameters": {"n_estimators": 100, "num_leaves": 15, "max_depth": 5,
             "min_child_samples": 40, "learning_rate": 0.05, "random_state": 42, "n_jobs": 2,

@@ -15,7 +15,7 @@
 `GET /api/experiments/{id}/report/download?format=html|json` defaults to HTML. Both use attachment Content-Disposition. HTML is self-contained UTF-8, escaped, printable with browser Print, and includes every trade, provenance, assumptions, linked evidence and limitations. JSON has the report shape above. Unknown experiment 404; unsupported format 422; unsuccessful/missing/corrupt/inconsistent evidence 409. Downloads are regenerated and generated_at is read time; narrative is deterministic.
 
 `GET /api/system` and `python -m quantpilot.doctor --json` return the same shape:
-- `version: "0.4.0-mvp1"`, `python_version`, `engine_version: string|null`, `generated_at`
+- `version: "0.5.1-restored"`, `python_version`, `engine_version: string|null`, `generated_at`
 - `frontend: {built: bool}`
 - `dataset: {available: bool, metadata: object|null}` (public manifest summary)
 - `database: {exists: bool, readable: bool}`

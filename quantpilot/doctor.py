@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 from . import settings
 
-VERSION = '0.4.0-mvp1'
+VERSION = '0.5.1-restored'
 
 
 def read_connection(path):

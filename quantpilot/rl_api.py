@@ -27,7 +27,7 @@ class RLInput(BaseModel):
     protocol: Literal['ppo-spot-v1'] = 'ppo-spot-v1'
 
 
-def compatibility_process(command, timeout=40):
+def compatibility_process(command, timeout=90):
     """The Windows venv launcher owns another Python process; reap the entire tree."""
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         stdin=subprocess.DEVNULL, text=True, encoding='utf-8', cwd=settings.ROOT,

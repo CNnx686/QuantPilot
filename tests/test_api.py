@@ -5,6 +5,39 @@ from fastapi.testclient import TestClient
 from quantpilot import api, settings
 
 
+@pytest.mark.parametrize('failure', ['startup', 'shutdown'])
+def test_lifespan_cleans_up_all_started_services_on_failure(monkeypatch, failure):
+    import asyncio
+    from quantpilot import live_control
+    calls = []
+
+    def operation(name, fail=False):
+        def run():
+            calls.append(name)
+            if fail:
+                raise RuntimeError('fixture lifecycle failure')
+        return run
+
+    monkeypatch.setattr(live_control, 'start_heartbeat', operation('live-start'))
+    monkeypatch.setattr(live_control, 'stop_heartbeat', operation('live-stop'))
+    monkeypatch.setattr(api.public_worker, 'start', operation('public-start', failure == 'startup'))
+    monkeypatch.setattr(api.public_worker, 'stop', operation('public-stop'))
+    monkeypatch.setattr(api.rl_worker, 'start', operation('rl-start'))
+    monkeypatch.setattr(api.rl_worker, 'stop', operation('rl-stop', failure == 'shutdown'))
+
+    async def run():
+        async with api.lifespan(api.app):
+            calls.append('served')
+
+    with pytest.raises(RuntimeError, match='fixture lifecycle failure'):
+        asyncio.run(run())
+    if failure == 'startup':
+        assert calls == ['live-start', 'public-start', 'public-stop', 'live-stop']
+    else:
+        assert calls == ['live-start', 'public-start', 'rl-start', 'served',
+                         'rl-stop', 'public-stop', 'live-stop']
+
+
 @pytest.fixture
 def client(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "DB", tmp_path / "queue.sqlite3")

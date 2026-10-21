@@ -328,7 +328,7 @@ def test_llm_suggestion_validated_and_provenance_cannot_be_forged(client, monkey
         assert request.url.path == '/v1/chat/completions'
         assert request.headers['authorization'] == 'Bearer never-exposed-test-key'
         return httpx.Response(200, json={'choices': [{'message': {'content': json.dumps(spec())}}]})
-    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.Client(transport=httpx.MockTransport(response)))
+    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.AsyncClient(transport=httpx.MockTransport(response)))
     result = client.post('/api/research/suggest', json={'prompt': 'research BTC', 'provider': 'llm'})
     assert result.status_code == 200
     suggestion = result.json()
@@ -352,10 +352,10 @@ def test_llm_unconfigured_and_remote_errors_sanitized(client, monkeypatch):
     assert client.post('/api/research/suggest', json={'prompt': 'BTC', 'provider': 'llm'}).status_code == 409
     for name, value in [('BASE_URL', 'https://provider.example/v1'), ('MODEL', 'model'), ('API_KEY', 'secret')]:
         monkeypatch.setenv('QUANTPILOT_LLM_' + name, value)
-    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(401, text='secret response'))))
+    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.AsyncClient(transport=httpx.MockTransport(lambda request: httpx.Response(401, text='secret response'))))
     result = client.post('/api/research/suggest', json={'prompt': 'BTC', 'provider': 'llm'})
     assert result.status_code == 502 and 'secret' not in result.text
-    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(200, json={'choices': [{'message': {'content': json.dumps(dict(spec(), code='arbitrary code'))}}]}))))
+    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.AsyncClient(transport=httpx.MockTransport(lambda request: httpx.Response(200, json={'choices': [{'message': {'content': json.dumps(dict(spec(), code='arbitrary code'))}}]}))))
     result = client.post('/api/research/suggest', json={'prompt': 'BTC', 'provider': 'llm'})
     assert result.status_code == 422 and 'arbitrary code' not in result.text
 
@@ -385,24 +385,24 @@ def test_llm_total_deadline_aborts_stream_and_sanitizes(client, monkeypatch, hea
     monkeypatch.setattr(llm, 'monotonic', lambda: clock[0], raising=False)
     payload = json.dumps({'choices': [{'message': {'content': json.dumps(spec())}}]}).encode()
 
-    class Trickle(httpx.SyncByteStream):
+    class Trickle(httpx.AsyncByteStream):
         received = 0
         closed = False
 
-        def __iter__(self):
+        async def __aiter__(self):
             for index in range(0, len(payload), 16):
                 clock[0] += 8
                 self.received += 1
                 yield payload[index:index + 16]
 
-        def close(self):
+        async def aclose(self):
             self.closed = True
 
     stream = Trickle()
     def respond(request):
         clock[0] += header_delay
         return httpx.Response(200, stream=stream)
-    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.Client(transport=httpx.MockTransport(respond)))
+    monkeypatch.setattr(llm, 'client_factory', lambda: httpx.AsyncClient(transport=httpx.MockTransport(respond)))
     response = client.post('/api/research/suggest', json={'prompt': 'BTC', 'provider': 'llm'})
     assert response.status_code == 502
     assert 'test-secret' not in response.text

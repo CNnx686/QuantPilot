@@ -1,0 +1,6 @@
+import type { SystemStatus } from './types';
+import { EvidenceFields, LoadError, RawDetails, useResource } from './WorkflowUI';
+export default function SystemPanel() {
+  const system = useResource<SystemStatus>('/system', 15000);
+  return <section className="document-card"><div className="section-label"><div className="eyebrow">LOCAL SYSTEM / READ ONLY</div><button className="secondary" disabled={system.loading} onClick={system.reload}>重新检查环境</button></div><h2>系统就绪检查</h2><p>读取本地安装元数据、文件状态和执行器心跳；不连接私有账户，不启用交易。</p><LoadError message={system.error} retry={system.reload}/>{!system.data && system.loading && <p role="status">检查中…</p>}{system.data && <><EvidenceFields values={{ '版本': system.data.version, 'Python': system.data.python_version, 'Freqtrade': system.data.engine_version, '核心环境': system.data.core_ready ? '已就绪' : '需要处理', '检查时间': system.data.generated_at }}/>{system.data.checklist.map(check => <div className="check" key={check.id}><span className={check.status === 'ok' ? 'positive' : check.status === 'error' ? 'negative' : 'readiness-warning'}>{check.status}</span><div><b>{check.detail}</b>{check.action && <p>{check.action}</p>}</div></div>)}<RawDetails title="完整系统证据" value={system.data}/></>}</section>;
+}

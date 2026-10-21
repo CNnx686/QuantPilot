@@ -45,7 +45,7 @@ def connect():
           last_success TEXT, last_attempt TEXT, error TEXT);
         CREATE TABLE IF NOT EXISTS news(id TEXT PRIMARY KEY, source TEXT NOT NULL, item_key TEXT NOT NULL,
           content_hash TEXT NOT NULL, first_seen_at TEXT NOT NULL, revision_seen_at TEXT NOT NULL,
-          record TEXT NOT NULL, UNIQUE(source,item_key,content_hash));
+          record TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS analyses(version_id TEXT NOT NULL, provider TEXT NOT NULL,
           model_key TEXT NOT NULL, record TEXT NOT NULL, PRIMARY KEY(version_id,provider,model_key));
         CREATE TRIGGER IF NOT EXISTS immutable_news_update BEFORE UPDATE ON news

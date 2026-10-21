@@ -1,4 +1,5 @@
 """Optional bounded OpenAI-compatible configuration generator; never executes output."""
+from time import monotonic
 import asyncio
 import json
 import os
@@ -52,11 +53,16 @@ def client_factory():
 async def request_configuration(url, key, payload):
     # Unlike a socket read timeout, this deadline includes slow headers and trickles.
     async with asyncio.timeout(REQUEST_DEADLINE):
+        started = monotonic()
         async with client_factory() as client:
             async with client.stream('POST', url, headers={'Authorization': 'Bearer ' + key}, json=payload) as response:
                 response.raise_for_status()
+                if monotonic() - started >= REQUEST_DEADLINE:
+                    raise TimeoutError('Request deadline exceeded')
                 raw = bytearray()
                 async for chunk in response.aiter_bytes():
+                    if monotonic() - started >= REQUEST_DEADLINE:
+                        raise TimeoutError('Request deadline exceeded')
                     if len(raw) + len(chunk) > MAX_RESPONSE_BYTES:
                         raise ProviderError("Provider response exceeded the size limit")
                     raw.extend(chunk)

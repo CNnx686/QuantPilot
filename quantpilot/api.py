@@ -2,6 +2,7 @@
 import hashlib
 import importlib.metadata
 import re
+from contextlib import ExitStack, asynccontextmanager
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
@@ -9,12 +10,30 @@ from urllib.parse import urlparse
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from .research import ExperimentInput
 
 from . import settings, store
 from .data import get_dataset
 
-app = FastAPI(title="QuantPilot", version="0.1.0")
+from .doctor import VERSION
+from . import public_worker, rl_worker
+
+
+@asynccontextmanager
+async def lifespan(app):
+    from . import live_control
+    with ExitStack() as cleanup:
+        # Register before startup so partially started services are cleaned up too.
+        cleanup.callback(live_control.stop_heartbeat)
+        live_control.start_heartbeat()
+        cleanup.callback(public_worker.stop)
+        public_worker.start()
+        cleanup.callback(rl_worker.stop)
+        rl_worker.start()
+        yield
+
+
+app = FastAPI(title="QuantPilot", version=VERSION, lifespan=lifespan)
 
 
 @app.exception_handler(RequestValidationError)
@@ -24,36 +43,6 @@ async def validation_error(request: Request, exc: RequestValidationError):
         {"loc": error["loc"], "msg": error["msg"], "type": error["type"]}
         for error in exc.errors()
     ]})
-
-
-class ExperimentInput(BaseModel):
-    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
-    name: str = Field(default="趋势基线研究", min_length=1, max_length=100)
-    pairs: list[str] = Field(default_factory=lambda: ["BTC/USDT", "ETH/USDT"], min_length=1, max_length=2)
-    start: date = date(2025, 1, 1)
-    end: date = date(2025, 4, 1)
-    wallet: float = Field(default=10000, gt=0, le=1e9)
-    stake: float = Field(default=1000, gt=0, le=1e9)
-    fee: float = Field(default=0.001, ge=0, le=0.1)
-    strategy: str = "SmaTrend"
-    dataset_id: str | None = Field(default=None, min_length=1, max_length=100)
-
-    @model_validator(mode="after")
-    def validate_research(self):
-        if self.strategy not in {"SmaTrend", "FreqaiTrend"}:
-            raise ValueError("Select SmaTrend or FreqaiTrend")
-        if self.strategy == "FreqaiTrend" and (self.start < date(2025, 4, 1) or self.end > date(2025, 10, 1)):
-            raise ValueError("FreqAI uses development/validation [2025-04-01, 2025-10-01); final test is reserved")
-        if len(set(self.pairs)) != len(self.pairs) or any(p not in {"BTC/USDT", "ETH/USDT"} for p in self.pairs):
-            raise ValueError("Select unique BTC/USDT and/or ETH/USDT pairs")
-        if not 0 < (self.end - self.start).days <= 366:
-            raise ValueError("end must follow start by at most 366 days (end is exclusive)")
-        if self.stake > self.wallet:
-            raise ValueError("stake must not exceed wallet")
-        self.name = self.name.strip()
-        if not self.name:
-            raise ValueError("name must not be blank")
-        return self
 
 
 @app.middleware("http")
@@ -227,6 +216,17 @@ def artifact(job_id: str, filename: str):
 from .workflow_api import create_router
 
 app.include_router(create_router(lambda: get_dataset()))
+
+
+from .product_api import create_router as create_product_router
+from .public_api import create_router as create_public_router
+from .rl_api import create_router as create_rl_router
+from .live_api import router as live_router
+
+app.include_router(create_product_router(lambda: get_dataset()))
+app.include_router(create_public_router(lambda: get_dataset()))
+app.include_router(create_rl_router())
+app.include_router(live_router)
 
 
 @app.get("/{path:path}")
