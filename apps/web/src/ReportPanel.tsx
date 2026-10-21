@@ -1,0 +1,33 @@
+import { useEffect, useState } from 'react';
+import { number, percent, request } from './api';
+import type { ExperimentReport, Job } from './types';
+import { EvidenceFields, LoadError, RawDetails, show, WorkflowHeading } from './WorkflowUI';
+
+const metricLabels: Record<string, string> = { net_return: '净收益率', profit_abs: '净损益 · USDT', max_drawdown: '已平仓回撤', trades: '成交笔数', win_rate: '胜率', initial_balance: '初始资金 · USDT', final_balance: '期末余额 · USDT', turnover: '换手倍数' };
+function metricValue(key: string, value: number | null | undefined) { return value === null || value === undefined ? '未记录 / 未定义' : ['net_return', 'max_drawdown', 'win_rate'].includes(key) ? percent(value) : number(value, key === 'trades' ? 0 : 2); }
+
+export default function ReportPanel({ jobs, initialId }: { jobs: Job[]; initialId: string }) {
+  const completed = jobs.filter(job => job.status === 'succeeded');
+  const [selected, setSelected] = useState(() => completed.some(job => job.id === initialId) ? initialId : completed[0]?.id || '');
+  const [report, setReport] = useState<ExperimentReport | null>(null), [error, setError] = useState(''), [loading, setLoading] = useState(false), [version, setVersion] = useState(0);
+  useEffect(() => { if (!selected && completed.length) setSelected(completed[0].id); }, [completed, selected]);
+  useEffect(() => {
+    const controller = new AbortController(); let active = true;
+    setReport(null); setError(''); setLoading(!!selected);
+    if (selected) void request<ExperimentReport>(`/experiments/${encodeURIComponent(selected)}/report`, { signal: controller.signal }).then(value => { if (active) setReport(value); }).catch(err => { if (active) setError(err instanceof Error ? err.message : '报告读取失败'); }).finally(() => { if (active) setLoading(false); });
+    return () => { active = false; controller.abort(); };
+  }, [selected, version]);
+  const visible = report?.experiment.id === selected ? report : null;
+  const download = `/api/experiments/${encodeURIComponent(selected)}/report/download`;
+  return <><WorkflowHeading code="VERIFIED EVIDENCE / MVP1" title="实验报告" text="先核对原始结果与引擎文件，再整理可复查的事实。报告无需在线模型。" mode="历史证据 · 只读"/>
+    <section className="document-card report-picker"><label htmlFor="report-experiment">选择已完成实验</label><select id="report-experiment" value={selected} onChange={e => { setReport(null); setSelected(e.target.value); }}>{!selected && <option value="">请选择实验</option>}{completed.map(job => <option value={job.id} key={job.id}>{job.name} · {job.config.strategy} · {job.id.slice(0, 8)}</option>)}</select><button className="secondary" disabled={!selected || loading} onClick={() => setVersion(value => value + 1)}>重新核验证据</button></section>
+    {!completed.length && <div className="notice">还没有已完成实验。完成一次历史回测后，即可在这里核验并导出报告。</div>}
+    <LoadError message={error} retry={() => setVersion(value => value + 1)}/>{loading && <p className="report-loading" role="status">正在核对原始结果、引擎文件与绑定诊断…</p>}
+    {visible && <><section className={`report-diagnostic ${visible.diagnostic_status === 'flagged' ? 'flagged' : ''}`} role="status"><div><div className="eyebrow">ORIGINAL DIAGNOSTIC STATUS</div><strong>{visible.diagnostic_status}</strong></div><p>{visible.diagnostic_status === 'flagged' ? '原始前视诊断存在疑虑，不能视为验证通过。' : visible.diagnostic_status === 'passed_sampled' ? '抽样诊断通过仅覆盖原始检查范围，不代表完整验证。' : '诊断未完成验证，请保留结论边界。'}{visible.experiment.config.strategy === 'FreqaiTrend' && ' ML 仅限历史研究，禁止用于模拟部署。'}最终保留测试仍未验证。</p></section>
+    <section className="document-card report-summary"><div className="eyebrow">DETERMINISTIC FINDINGS</div><h2>{visible.experiment.name}</h2>{visible.narrative.map((line, index) => <p key={index}>{line}</p>)}<div className="workflow-actions"><a className="primary" href={`${download}?format=html`} download>下载 HTML · 可打印 ↓</a><a className="secondary" href={`${download}?format=json`} download>下载 JSON ↓</a></div><p className="field-help">打印 / 保存 PDF：下载 HTML 后用浏览器打开，按 Ctrl+P。导出包含完整成交记录、UTC 时间与来源证据；每次下载都会重新核验文件。</p><EvidenceFields values={{ '实验 ID': visible.experiment.id, '创建时间 · UTC': visible.experiment.created_at, '报告生成时间 · UTC': visible.generated_at }}/></section>
+    <section className="report-metrics" aria-label="原始实验指标">{Array.from(new Set([...Object.keys(metricLabels), ...Object.keys(visible.metrics)])).map(key => <div className="metric" key={key}><span>{metricLabels[key] || key}</span><strong>{metricValue(key, visible.metrics[key])}</strong></div>)}</section>
+    <div className="comparison-grid"><section className="document-card"><div className="eyebrow">LINKED RESEARCH</div><h2>绑定研究 · {visible.research.length}</h2>{visible.research.length ? visible.research.map(record => <EvidenceFields key={record.id} values={{ '研究 ID': record.id, '修订 / 来源': `${record.revision} / ${record.source}`, '保存状态': record.status, '创建时间 · UTC': record.created_at }}/>) : <p>该实验没有绑定研究规格；直接创建的实验也可保留完整回测证据。</p>}</section><section className="document-card"><div className="eyebrow">SAVED RELEASE AUDITS</div><h2>保存的发布审计 · {visible.releases.length}</h2><p>这是已保存的历史审核，不是本次重新审批，也不表示部署正在运行。</p>{visible.releases.length ? visible.releases.map(release => <div key={release.id}><EvidenceFields values={{ '发布 ID': release.id, '审核状态': release.status, '创建时间 · UTC': release.created_at }}/><RawDetails title="审核检查与策略" value={{ checks: release.checks, policy: release.policy }}/></div>) : <p>该实验尚无绑定发布审计。</p>}</section></div>
+    <section className="document-card"><div className="eyebrow">SOURCE & BOUNDARIES</div><h2>来源、假设与诊断</h2><RawDetails title="原始实验配置" value={visible.experiment.config}/><RawDetails title="数据指纹、指标口径与运行假设" value={visible.provenance}/><RawDetails title="绑定的原始诊断证据" value={visible.diagnostics}/><h3>结论边界</h3><ul className="report-limitations">{visible.limitations.map((line, index) => <li key={index}>{line}</li>)}</ul></section>
+    <section className="document-card"><div className="eyebrow">ORIGINAL TRADE ORDER / UTC</div><h2>成交证据 · {visible.trades.length}</h2><p>保留原始索引与 UTC 时间，不重建未记录的风险决策。完整字段保留在导出的 JSON 中。</p>{visible.trades.length ? <div className="table-scroll"><table><caption className="sr-only">原始成交记录</caption><thead><tr>{['原始 ID', '交易对', '开仓 / 平仓 · UTC', '净损益 · USDT', '收益率', '退出原因'].map(title => <th key={title}>{title}</th>)}</tr></thead><tbody>{visible.trades.map(trade => <tr key={trade.id}><td>{trade.id}</td><td>{show(trade.pair)}</td><td>{show(trade.open_date)}<small>{show(trade.close_date)}</small></td><td>{metricValue('profit_abs', trade.profit_abs)}</td><td>{metricValue('net_return', trade.profit_ratio)}</td><td>{show(trade.exit_reason)}</td></tr>)}</tbody></table></div> : <p>该区间没有成交；零成交也是原始研究结果。</p>}</section></>}
+  </>;
+}

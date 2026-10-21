@@ -1,0 +1,97 @@
+{
+  "id": "binance-2025q1-ea520826a66c",
+  "source": "Binance public historical archives",
+  "exchange": "binance",
+  "timeframe": "1h",
+  "pairs": [
+    "BTC/USDT",
+    "ETH/USDT"
+  ],
+  "start": "2024-12-01",
+  "end": "2025-04-01",
+  "available_start": "2025-01-01",
+  "available_end": "2025-04-01",
+  "timezone": "UTC",
+  "timestamp_meaning": "candle open; OHLCV available after one hour",
+  "retrieved_at": "2026-10-08T11:25:04.099003+00:00",
+  "sha256": "ea520826a66cb1f1d8ec1eb0f8c54f2d25c20fab52cb7c77e4b9ae46a349f6db",
+  "files": [
+    {
+      "pair": "BTC/USDT",
+      "path": "data/market/binance/BTC_USDT-1h.feather",
+      "sha256": "67abfe7011f03bf356085f171775815a87485bfad2a01427b1e97f7e5d979346",
+      "rows": 2904,
+      "missing": 0,
+      "duplicates": 0,
+      "invalid": 0
+    },
+    {
+      "pair": "ETH/USDT",
+      "path": "data/market/binance/ETH_USDT-1h.feather",
+      "sha256": "1014f691ce79f2a12c8122ff0ed77f16f2fcb9fa0a43562d315c016d719e78cf",
+      "rows": 2904,
+      "missing": 0,
+      "duplicates": 0,
+      "invalid": 0
+    }
+  ],
+  "sources": [
+    {
+      "pair": "BTC/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-12.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-12.zip.CHECKSUM",
+      "sha256": "dfec812f73a84257b195cbdaed34d020fa77e845625c061c13bd6a60e7ef9372"
+    },
+    {
+      "pair": "BTC/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-01.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-01.zip.CHECKSUM",
+      "sha256": "e7f2aaa5396a8062a57ab29ce9fab2d76b2c84ec58815d4ab7b3fe16f78c7118"
+    },
+    {
+      "pair": "BTC/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-02.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-02.zip.CHECKSUM",
+      "sha256": "7420f55c93f61d7e734fc9d2507c7f2fcb5eaf48112277cecd241d4e1dbf3bd5"
+    },
+    {
+      "pair": "BTC/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-03.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-03.zip.CHECKSUM",
+      "sha256": "b5ae8bb57e5e526c2050c9f8229b723871a5af47d80c53453abf61847a5f3aa6"
+    },
+    {
+      "pair": "ETH/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-12.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-12.zip.CHECKSUM",
+      "sha256": "84312b7dc2b5c903853c78d94f587ef1d24b7960d7bd95f5bfe3afc3db006203"
+    },
+    {
+      "pair": "ETH/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-01.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-01.zip.CHECKSUM",
+      "sha256": "f7350a6f3b51de466a0db52ba890cf296d4faeb6e84811b9606f87ad39ccf3ec"
+    },
+    {
+      "pair": "ETH/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-02.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-02.zip.CHECKSUM",
+      "sha256": "40c2f73850422d47ca7d044959cecc39ff3416f6e3c88f30636da4a01a0b6e31"
+    },
+    {
+      "pair": "ETH/USDT",
+      "url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-03.zip",
+      "checksum_url": "https://data.binance.vision/data/spot/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-03.zip.CHECKSUM",
+      "sha256": "dc32ecad498d19f8663633196ec84cbd480595c89aa1ae6062c0fa0b8d9bd11d"
+    }
+  ],
+  "quality": {
+    "status": "passed",
+    "warmup_hours": 744,
+    "missing": 0,
+    "duplicates": 0,
+    "invalid": 0
+  },
+  "usage": "development baseline only; not an untouched final test",
+  "available": true
+}

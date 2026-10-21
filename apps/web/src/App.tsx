@@ -1,0 +1,76 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { dateTime, number, percent, readable, request } from './api';
+import Chart from './Chart';
+import ExperimentForm from './ExperimentForm';
+import type { Artifact, Dataset, Health, Job } from './types';
+const statusText = { queued: '等待执行', running: '运行中', succeeded: '已完成', failed: '运行失败' };
+function loadSelection() { try { return localStorage.getItem('quantpilot.selected.v1') || ''; } catch { return ''; } }
+function Label({ children }: { children: React.ReactNode }) { return <div className="eyebrow">{children}</div>; }
+function Fields({ data }: { data: Record<string, unknown> }) { return <dl className="detail-list">{Object.entries(data).map(([key, value]) => <div key={key}><dt>{key}</dt><dd>{readable(value)}</dd></div>)}</dl>; }
+export default function App() {
+  const [page, setPage] = useState('workbench');
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [health, setHealth] = useState<Health | null>(null);
+  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [selected, setSelected] = useState(loadSelection);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [drawer, setDrawer] = useState(false);
+  const [tab, setTab] = useState('trades');
+  const [logs, setLogs] = useState('');
+  const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+  const [detailError, setDetailError] = useState('');
+  const refreshEpoch = useRef(0);
+  const job = jobs.find(item => item.id === selected) || null;
+  const result = job?.result;
+  const closeDrawer = useCallback(() => setDrawer(false), []);
+  useEffect(() => {
+    let stopped = false; let timer: ReturnType<typeof setTimeout>; const controller = new AbortController();
+    async function poll() {
+      const epoch = refreshEpoch.current;
+      const options = { signal: controller.signal };
+      const responses = await Promise.allSettled([request<Health>('/health', options), request<Job[]>('/experiments', options), request<Dataset | null>('/dataset', options)]);
+      if (stopped) return;
+      const [h, list, data] = responses;
+      if (h.status === 'fulfilled') setHealth(h.value); else setHealth(null);
+      if (list.status === 'fulfilled' && epoch === refreshEpoch.current) { setJobs(list.value); setSelected(current => list.value.some(j => j.id === current) ? current : list.value[0]?.id || ''); }
+      if (data.status === 'fulfilled') setDataset(data.value);
+      setError(responses.some(r => r.status === 'rejected') ? '暂时无法连接本地研究服务。请确认服务已启动；页面会自动重连。' : '');
+      setLoading(false); timer = setTimeout(poll, 3000);
+    }
+    void poll(); return () => { stopped = true; clearTimeout(timer); controller.abort(); };
+  }, []);
+  useEffect(() => { try { localStorage.setItem('quantpilot.selected.v1', selected); } catch { /* Storage may be unavailable in private browsers. */ } }, [selected]);
+  useEffect(() => {
+    setLogs(''); setArtifacts([]); setDetailError('');
+    if (!selected) return;
+    let stopped = false; let timer: ReturnType<typeof setTimeout>; const controller = new AbortController();
+    async function pollDetails() {
+      const options = { signal: controller.signal };
+      const [log, files] = await Promise.allSettled([request<{ text: string }>(`/experiments/${selected}/logs`, options), request<Artifact[]>(`/experiments/${selected}/artifacts`, options)]);
+      if (stopped) return;
+      if (log.status === 'fulfilled') setLogs(log.value.text);
+      if (files.status === 'fulfilled') setArtifacts(files.value);
+      setDetailError(log.status === 'rejected' || files.status === 'rejected' ? '日志或实验文件暂时不可用，正在重试。' : '');
+      timer = setTimeout(pollDetails, 3000);
+    }
+    void pollDetails(); return () => { stopped = true; clearTimeout(timer); controller.abort(); };
+  }, [selected]);
+  function created(newJob: Job) { refreshEpoch.current += 1; setJobs(previous => [newJob, ...previous.filter(j => j.id !== newJob.id)]); setSelected(newJob.id); setDrawer(false); setPage('workbench'); setTab('logs'); }
+  return <div className="app-shell"><aside className="sidebar"><a href="#" className="brand" onClick={e => { e.preventDefault(); setPage('workbench'); }}><span className="brand-mark">q<span>p</span></span><span>QuantPilot<small>RESEARCH TERMINAL</small></span></a><div className="sidebar-label">研究空间 / WORKSPACE</div><nav aria-label="主导航">{[['workbench', '◫', '实验工作台'], ['data', '▤', '数据与溯源'], ['help', '⌘', '使用指南']].map(([key, icon, text]) => <button key={key} className={`nav-item ${page === key ? 'active' : ''}`} onClick={() => setPage(key)} aria-current={page === key ? 'page' : undefined}><span className="nav-icon">{icon}</span>{text}{page === key && <span className="nav-dot"/>}</button>)}</nav><div className="sidebar-label upcoming-label">接下来的研究 / ROADMAP</div><div className="future-item"><span>模型训练</span><small>阶段二</small></div><div className="future-item"><span>模拟交易</span><small>阶段三</small></div><div className="sidebar-note"><div className="orbit">↗</div><p>先验证，再相信。</p><span>从一个可复现的实验开始，<br/>把每个结论留给数据。</span></div><div className="sidebar-bottom"><span className={`status-dot ${health?.worker.alive ? 'online' : ''}`}/><span>{health?.worker.alive ? '本地引擎在线' : '等待本地引擎'}</span><small>WEEK 01</small></div></aside>
+    <main className="main"><header className="topbar"><div><span className="breadcrumb">研究空间</span><span className="slash">/</span>历史回测 · 本地研究环境</div><span className="local-badge"><span className="status-dot online"/>LOCAL ONLY</span></header>
+      <div className="content">{error && <div className="error-box" role="alert">{error}</div>}{health && !health.worker.alive && <div className="notice" role="status">执行器当前离线。已保存实验仍可查看，新提交的实验将在执行器恢复后运行。</div>}{health && !health.dataset.available && <div className="notice">历史数据尚未准备完成。请先完成数据准备，再运行实验。</div>}
+      {page === 'workbench' ? <><section className="page-heading"><div><Label>THE RESEARCH DESK <span>/ 01</span></Label><h1>实验工作台<span className="heading-dot">.</span></h1><p>把交易假设，变成可以复查的证据。</p></div><button className="primary" onClick={() => setDrawer(true)}><span>＋</span>新建实验</button></section>
+      <div className="workspace-strip"><div><span>研究模式</span><b>历史回测</b></div><div><span>回测引擎</span><b>Freqtrade <em>{health?.engine_version || '待连接'}</em></b></div><div><span>策略基线</span><b>SMA 12 / 48</b></div><div><span>数据频率</span><b>{dataset?.timeframe || '—'} <em>OHLCV</em></b></div></div>
+      <section className="experiment-layout"><aside className="experiment-list"><div className="section-label"><Label>EXPERIMENTS</Label><span>{String(jobs.length).padStart(2, '0')}</span></div><h2>实验记录</h2>{loading ? <p className="muted">正在载入本地实验…</p> : jobs.length === 0 ? <p className="list-empty">还没有实验记录。<br/>新建第一个实验开始研究。</p> : jobs.map(item => <button key={item.id} className={`experiment-item ${item.id === selected ? 'selected' : ''}`} onClick={() => { setSelected(item.id); setTab('trades'); }}><span className={`status-pill ${item.status}`}>{statusText[item.status]}</span><strong>{item.name}</strong><span className="pairs">{item.config.pairs.join(' · ')}</span><span className="experiment-date">{item.config.start} → {item.config.end}</span><span className="experiment-bottom"><span>{item.id.slice(0, 8)}</span><span>↗</span></span></button>)}</aside>
+      <div className="experiment-detail">{!job ? <div className="empty-state"><span className="empty-symbol">↗</span><Label>YOUR FIRST HYPOTHESIS</Label><h2>好的研究，从可验证的假设开始。</h2><p>选择标的与历史区间，运行双均线基线。<br/>余额曲线、逐笔成交与数据指纹，都将在这里保留。</p><button className="primary" onClick={() => setDrawer(true)}>创建第一个实验<span>＋</span></button><div className="empty-steps"><span><b>01</b>配置假设</span><span><b>02</b>历史回测</span><span><b>03</b>核查证据</span></div></div> : <>
+        <div className="detail-heading"><div><Label>EXPERIMENT / {job.id.slice(0, 8)}</Label><h2>{job.name}</h2><p>{job.config.pairs.join(' · ')}<span> / </span>{job.config.start} — {job.config.end}<small>（结束日期不含当天 · UTC）</small></p></div><span className={`status-pill ${job.status}`}>{statusText[job.status]}</span></div>
+        {!result ? <div className={`run-state ${job.status === 'failed' ? 'failed-state' : ''}`} role="status"><div className={job.status === 'running' ? 'spinner' : 'run-symbol'}>{job.status === 'running' ? '' : job.status === 'failed' ? '!' : '◷'}</div><h3>{job.status === 'running' ? '回测引擎正在验证假设' : job.status === 'failed' ? '这次实验未能完成' : '实验已保存，等待执行'}</h3><p>{job.error || (job.status === 'running' ? '真实结果将在计算完成后展示。可在运行日志中查看引擎进度。' : '执行器将按顺序处理实验，请保持本地服务运行。')}</p><div className="run-stages"><span className="complete">配置已保存</span><i>→</i><span className={job.status === 'running' ? 'current' : ''}>引擎执行</span><i>→</i><span>结果核验</span></div></div> : <><div className="metric-grid"><div className="metric"><span>净收益率</span><strong className={result.metrics.net_return < 0 ? 'negative' : 'positive'}>{percent(result.metrics.net_return)}</strong><small>{number(result.metrics.profit_abs)} USDT</small></div><div className="metric"><span>已平仓回撤</span><strong>{number(result.metrics.max_drawdown * 100)}<em>%</em></strong><small>基于已实现余额</small></div><div className="metric"><span>成交笔数</span><strong>{result.metrics.trades}<em>笔</em></strong><small>胜率 {result.metrics.win_rate === null ? '—' : `${number(result.metrics.win_rate * 100)}%`}</small></div><div className="metric"><span>期末余额</span><strong>{number(result.metrics.final_balance)}</strong><small>初始 {number(result.metrics.initial_balance, 0)} USDT</small></div></div>
+        <section className="chart-card"><div className="chart-heading"><div><Label>REALIZED BALANCE</Label><h3>已实现余额曲线<span>（不含浮动盈亏）</span></h3></div><span className="outlined-badge">USDT</span></div><Chart points={result.equity}/></section></>}
+        <section className="evidence-card"><div className="tabs" role="tablist" aria-label="实验证据">{[['trades', '成交记录'], ['logs', '运行日志'], ['provenance', '实验溯源']].map(([key, title]) => <button role="tab" id={`tab-${key}`} aria-controls={`panel-${key}`} aria-selected={tab === key} className={tab === key ? 'active' : ''} key={key} onClick={() => setTab(key)}>{title}{key === 'trades' && <span>{result?.trades.length ?? '—'}</span>}</button>)}</div><div className="tab-panel" role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
+          {detailError && <div className="notice">{detailError}</div>}{tab === 'trades' ? result ? result.trades.length ? <div className="table-scroll"><table><caption className="sr-only">逐笔平仓交易记录，时间为 UTC</caption><thead><tr><th>交易对</th><th>开仓 / 平仓 · UTC</th><th>开仓 / 平仓价格</th><th>收益 · USDT</th><th>收益率</th><th>退出原因</th></tr></thead><tbody>{result.trades.map((trade, i) => <tr key={`${trade.pair}-${trade.open_date}-${i}`}><td className="pair-cell">{trade.pair}</td><td>{trade.open_date}<small>{trade.close_date}</small></td><td>{number(trade.open_rate)}<small>{number(trade.close_rate)}</small></td><td className={trade.profit_abs < 0 ? 'negative' : 'positive'}>{number(trade.profit_abs)}</td><td className={trade.profit_ratio < 0 ? 'negative' : 'positive'}>{percent(trade.profit_ratio)}</td><td>{trade.exit_reason}</td></tr>)}</tbody></table></div> : <p className="panel-empty">该区间没有产生交易；零成交同样是有效的研究结果。</p> : <p className="panel-empty">实验完成后，这里将展示引擎返回的真实成交记录。</p> : tab === 'logs' ? <pre className="log-view" tabIndex={0}>{logs || '暂无引擎日志。实验开始执行后将自动更新。'}</pre> : <div className="provenance"><Fields data={{ '实验 ID': job.id, '创建时间': dateTime(job.created_at), '开始执行': dateTime(job.started_at), '结束执行': dateTime(job.finished_at), '策略': job.config.strategy, '单边手续费': `${number(job.config.fee * 100)}%`, '单笔投入': `${number(job.config.stake)} USDT` }}/>{result && <><h4>运行假设</h4><Fields data={result.assumptions}/><h4>数据与代码指纹</h4><Fields data={result.provenance}/><h4>结果核验</h4>{result.checks.map(check => <div className="check" key={check.name}><span className={check.status === 'passed' ? 'positive' : 'muted'}>{check.status === 'passed' ? '✓ 通过' : '待验证'}</span><div><b>{check.name}</b><p>{check.detail}</p></div></div>)}</>}<h4>实验文件下载</h4>{artifacts.length ? <div className="artifact-list">{artifacts.map(file => <a href={file.url} download key={file.name}><span>{file.name}<small>{number(file.size / 1024, 1)} KB · SHA256 {file.sha256.slice(0, 12)}…</small></span><span>↓</span></a>)}</div> : <p className="muted">执行后生成配置、日志与结果文件。</p>}</div>}
+        </div></section>
+      </>}</div></section></> : page === 'data' ? <><section className="page-heading"><div><Label>DATA & PROVENANCE / 02</Label><h1>数据与溯源<span className="heading-dot">.</span></h1><p>知道数据从哪里来，才能知道结论到哪里为止。</p></div><span className="outlined-badge">{dataset?.available ? '本地数据已就绪' : '等待数据准备'}</span></section><section className="document-card"><Label>HISTORICAL DATASET</Label><h2>可复现的数据底座</h2>{dataset ? <><Fields data={{ '数据集': dataset.id, '来源': dataset.source, '交易所': dataset.exchange, 'K 线周期': dataset.timeframe, '交易对': dataset.pairs.join(' / '), '原始时间区间': `${dataset.start} → ${dataset.end}`, '可回测时间区间（结束日不含）': `${dataset.available_start} → ${dataset.available_end}`, 'SHA256': dataset.sha256 }}/><h3>文件质量</h3><div className="table-scroll"><table><thead><tr><th>交易对</th><th>数据行</th><th>缺失</th><th>重复</th><th>无效</th></tr></thead><tbody>{dataset.files.map(file => <tr key={file.path}><td>{file.pair}</td><td>{file.rows}</td><td>{file.missing}</td><td>{file.duplicates}</td><td>{file.invalid}</td></tr>)}</tbody></table></div><h3>原始来源</h3>{dataset.sources.map((source, i) => <p key={i}><a className="source-link" href={source.url} target="_blank" rel="noreferrer">{source.url} ↗</a></p>)}<h3>质量报告</h3><Fields data={dataset.quality}/></> : <p>本地数据清单尚不可用。准备历史数据后，此页面会自动展示来源与校验信息。</p>}</section><section className="document-card limitation"><Label>RESEARCH BOUNDARIES</Label><h2>读懂结果的边界</h2><p>本阶段使用固定历史 OHLCV 数据和 SMA 12 / 48 趋势策略。手续费按每次买入、卖出分别计入；具体撮合、滑点与回撤口径以每个实验的「运行假设」为准。</p><p>余额曲线只记录已实现收益，不包含持仓浮动盈亏。已平仓回撤不能替代盘中或逐笔盯市回撤；历史收益无法推断未来收益。数据指纹与实验原始文件可用于复查和重现结果。</p></section></> : <><section className="page-heading"><div><Label>FIELD GUIDE / 03</Label><h1>使用指南<span className="heading-dot">.</span></h1><p>一条从假设到证据的清晰路径。</p></div></section><div className="guide-grid">{[['01', '定义你的实验', '新建实验，选择 BTC/USDT、ETH/USDT 或两者。设置历史日期、初始资金、单笔投入与单边手续费。结束日期不包含当天，日期按 UTC 解释。'], ['02', '让真实引擎执行', '实验持久化到本地队列，由 Freqtrade 执行历史回测。页面自动更新状态；运行日志保留真实引擎输出。刷新或重新打开页面后仍可继续查看。'], ['03', '核查你的结论', '对照余额曲线和逐笔成交理解收益。到实验溯源查看运行假设、核验结果与 SHA256 指纹，并下载配置及原始回测文件。']].map(([index, title, text]) => <section className="guide-step" key={index}><span>{index}</span><h2>{title}</h2><p>{text}</p></section>)}</div><section className="document-card"><Label>WEEK ONE / SCOPE</Label><h2>当前版本：建立可信的研究基线</h2><p>已实现本地实验管理、固定双均线策略历史回测、真实成交与余额结果、执行日志、数据和代码溯源。策略使用 SMA 12 / SMA 48，固定止损 5%。</p><div className="scope-row"><b>阶段二 · 模型训练</b><span>计划接入 FreqAI。当前尚未训练 FreqAI 模型，也没有 AI 自动生成的研究结论。</span></div><div className="scope-row"><b>阶段三 · 模拟交易</b><span>计划提供模型驱动的模拟交易与持续观察。当前不会下单或连接实盘交易。</span></div><h3>实验没有开始运行？</h3><p>检查顶部的执行器状态与数据就绪提示。本地 API 和执行器需要同时运行；执行器离线时，队列里的实验会保留。参数错误可修改后重试，运行错误可在日志中查看。</p></section></>}
+      <footer className="footer"><span>QUANTPILOT <span>/</span> 可复现的量化研究</span><span>历史回测结果仅供研究 · 不构成投资建议</span></footer></div>
+    </main>{drawer && <ExperimentForm onClose={closeDrawer} onCreated={created} dataset={dataset}/>}</div>;
+}
