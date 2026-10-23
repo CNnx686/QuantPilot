@@ -1,0 +1,220 @@
+{
+  "verified_at": "2026-10-23T12:12:29.462473+00:00",
+  "comparison_policy": "freqai-half-open-v1",
+  "tests": {
+    "passed": 211,
+    "skipped": 1
+  },
+  "runs": [
+    {
+      "quarter": "Q2",
+      "old": "6e3eeeeb-5c25-46bd-a7ee-801e815f1525",
+      "id": "7dbbf255-99bc-45b4-bd29-ab47e80f2c65",
+      "metrics": {
+        "net_return": -0.011863526217999996,
+        "profit_abs": -118.63526217999996,
+        "max_drawdown": 0.03350156098987778,
+        "trades": 211,
+        "win_rate": 0.4597156398104265,
+        "initial_balance": 10000.0,
+        "final_balance": 9881.36473782,
+        "turnover": 42.21983809492
+      },
+      "prediction_count": 4368,
+      "fit_count": 8,
+      "timestamp_audit": "passed",
+      "identical_to_previous_hashes": {
+        "predictions.csv": "e3d6981c58e0f2495b04c581e775296491c01b43f9af7ec24b5992ff5b969f05",
+        "strategies/FreqaiTrend.py": "841465bfdd4fab4ffaadae6841d095f264e560d2c723bfd6ffdf01c042d2015d",
+        "models/PurgedLightGBMRegressor.py": "927d6ce71dc34d3161bd1ef9eeec8d0794db7054bcedcc03aba24148008096cb"
+      },
+      "trades_equal_to_previous": true,
+      "diagnostic": {
+        "job_id": "7dbbf255-99bc-45b4-bd29-ab47e80f2c65",
+        "strategy": "FreqaiTrend",
+        "source_result_sha256": "a234932ef4347fc11a20f3df3db373efc3280e6fe97e5efb123eb57d47f5ff37",
+        "path": "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38",
+        "command": [
+          "C:\\Users\\20705\\QuantPilot-Restored\\.venv\\Scripts\\python.exe",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\lookahead_runner.py",
+          "lookahead-analysis",
+          "--config",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\effective-config.json",
+          "--strategy",
+          "FreqaiTrend",
+          "--strategy-path",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\strategies",
+          "--timerange",
+          "1743465600-1751327999",
+          "--datadir",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\market",
+          "--data-format-ohlcv",
+          "feather",
+          "--minimum-trade-amount",
+          "5",
+          "--targeted-trade-amount",
+          "100",
+          "--lookahead-analysis-exportfilename",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\lookahead.csv",
+          "--no-color",
+          "--freqaimodel",
+          "PurgedLightGBMRegressor",
+          "--freqaimodel-path",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38\\models"
+        ],
+        "status": "passed_sampled",
+        "scope": "Freqtrade 2026.9 抽样交易检查，并比较预测结束时刻之前的全部指标列；额外执行 K 线仍参与交易检查。边界原始差异保存在 comparison-boundaries.jsonl，没有忽略任何指标列。通过仅限本次抽样，不证明普遍无前视偏差。",
+        "comparison_policy": "freqai-half-open-v1",
+        "adapter_sha256": "7e6f27d1908deda9b95a7901cbc632bbc2765a73fb044fdfb8473ef1d84956fd",
+        "exit_code": 0,
+        "rows": [
+          {
+            "filename": "FreqaiTrend.py",
+            "strategy": "FreqaiTrend",
+            "has_bias": "False",
+            "total_signals": "100",
+            "biased_entry_signals": "0",
+            "biased_exit_signals": "0",
+            "biased_indicators": ""
+          }
+        ],
+        "boundary_comparisons": 200,
+        "raw_difference_comparisons": 200,
+        "in_window_difference_rows": 0,
+        "boundary_evidence_sha256": "23a891f23c70136673f8f518d43ad1b4683b2b38b8fbdef37354eceb61462753",
+        "log_sha256": "2f9ec4b030bfc1f48df18ce47c85fae083932313f91171ee8e116f0d2a237bf7",
+        "id": "diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38",
+        "files": [
+          {
+            "name": "diagnostic.json",
+            "url": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/diagnostics/diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38/diagnostic.json"
+          },
+          {
+            "name": "lookahead.csv",
+            "url": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/diagnostics/diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38/lookahead.csv"
+          },
+          {
+            "name": "lookahead.log",
+            "url": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/diagnostics/diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38/lookahead.log"
+          },
+          {
+            "name": "comparison-boundaries.jsonl",
+            "url": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/diagnostics/diagnostic-bdf017f8-f421-4f61-8ab8-3d6d9f67fc38/comparison-boundaries.jsonl"
+          }
+        ]
+      },
+      "checked_pairs": [
+        "BTC/USDT",
+        "ETH/USDT"
+      ],
+      "first_checked_at": "2025-04-01 04:00:00+00:00",
+      "last_checked_at": "2025-05-15 01:00:00+00:00"
+    },
+    {
+      "quarter": "Q3",
+      "old": "276195ef-0862-4f62-affc-fbc419dfe1b1",
+      "id": "0394258d-f92c-45a8-9318-cc1a61f4469e",
+      "metrics": {
+        "net_return": 0.010465361713000002,
+        "profit_abs": 104.65361713000001,
+        "max_drawdown": 0.02140755229752725,
+        "trades": 160,
+        "win_rate": 0.46875,
+        "initial_balance": 10000.0,
+        "final_balance": 10104.65361713,
+        "turnover": 32.03309182606
+      },
+      "prediction_count": 4416,
+      "fit_count": 8,
+      "timestamp_audit": "passed",
+      "identical_to_previous_hashes": {
+        "predictions.csv": "65207209a777803fa6590787265bfee675b523c52a52597edef3f5353651b978",
+        "strategies/FreqaiTrend.py": "841465bfdd4fab4ffaadae6841d095f264e560d2c723bfd6ffdf01c042d2015d",
+        "models/PurgedLightGBMRegressor.py": "927d6ce71dc34d3161bd1ef9eeec8d0794db7054bcedcc03aba24148008096cb"
+      },
+      "trades_equal_to_previous": true,
+      "diagnostic": {
+        "job_id": "0394258d-f92c-45a8-9318-cc1a61f4469e",
+        "strategy": "FreqaiTrend",
+        "source_result_sha256": "40500ca41a3fa53786f0799859fa80f191bc56a965f6fd13a4b9997692d2e38a",
+        "path": "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5",
+        "command": [
+          "C:\\Users\\20705\\QuantPilot-Restored\\.venv\\Scripts\\python.exe",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\lookahead_runner.py",
+          "lookahead-analysis",
+          "--config",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\effective-config.json",
+          "--strategy",
+          "FreqaiTrend",
+          "--strategy-path",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\strategies",
+          "--timerange",
+          "1751328000-1759276799",
+          "--datadir",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\market",
+          "--data-format-ohlcv",
+          "feather",
+          "--minimum-trade-amount",
+          "5",
+          "--targeted-trade-amount",
+          "100",
+          "--lookahead-analysis-exportfilename",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\lookahead.csv",
+          "--no-color",
+          "--freqaimodel",
+          "PurgedLightGBMRegressor",
+          "--freqaimodel-path",
+          "C:\\Users\\20705\\QuantPilot-Restored\\artifacts\\diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5\\models"
+        ],
+        "status": "passed_sampled",
+        "scope": "Freqtrade 2026.9 抽样交易检查，并比较预测结束时刻之前的全部指标列；额外执行 K 线仍参与交易检查。边界原始差异保存在 comparison-boundaries.jsonl，没有忽略任何指标列。通过仅限本次抽样，不证明普遍无前视偏差。",
+        "comparison_policy": "freqai-half-open-v1",
+        "adapter_sha256": "7e6f27d1908deda9b95a7901cbc632bbc2765a73fb044fdfb8473ef1d84956fd",
+        "exit_code": 0,
+        "rows": [
+          {
+            "filename": "FreqaiTrend.py",
+            "strategy": "FreqaiTrend",
+            "has_bias": "False",
+            "total_signals": "100",
+            "biased_entry_signals": "0",
+            "biased_exit_signals": "0",
+            "biased_indicators": ""
+          }
+        ],
+        "boundary_comparisons": 200,
+        "raw_difference_comparisons": 200,
+        "in_window_difference_rows": 0,
+        "boundary_evidence_sha256": "67552e23b736bd84801543a8f3bd50bd2cbcb360219a88d050b3f3640b9de2a4",
+        "log_sha256": "97ff66f53b4e0cae66a18958f7e06d2916eaa90b030f465d7b84423143e927e6",
+        "id": "diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5",
+        "files": [
+          {
+            "name": "diagnostic.json",
+            "url": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/diagnostics/diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5/diagnostic.json"
+          },
+          {
+            "name": "lookahead.csv",
+            "url": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/diagnostics/diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5/lookahead.csv"
+          },
+          {
+            "name": "lookahead.log",
+            "url": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/diagnostics/diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5/lookahead.log"
+          },
+          {
+            "name": "comparison-boundaries.jsonl",
+            "url": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/diagnostics/diagnostic-522a6793-7a17-4586-bd55-9bcf2b618eb5/comparison-boundaries.jsonl"
+          }
+        ]
+      },
+      "checked_pairs": [
+        "BTC/USDT",
+        "ETH/USDT"
+      ],
+      "first_checked_at": "2025-07-01 20:00:00+00:00",
+      "last_checked_at": "2025-08-26 15:00:00+00:00"
+    }
+  ],
+  "live_enabled": false,
+  "final_q4_run": false
+}

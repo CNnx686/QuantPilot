@@ -112,3 +112,5 @@ flowchart LR
 本地开发代码尚未对外发布；对外交付时一并提供依赖许可与相关源代码说明。
 
 恢复版入口：[C 盘启动说明](docs/C盘恢复与启动.md) · [本次恢复验收](docs/restoration-acceptance.md)。
+
+后续修复：[2026-10-23 FreqAI 前视诊断边界说明与复验](docs/freqai-lookahead-fix-20261023.md)。

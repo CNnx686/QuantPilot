@@ -131,3 +131,23 @@ def test_retry_returns_existing_job_even_after_data_disappears(client, monkeypat
     assert retry.status_code == 200
     assert retry.json()["id"] == job["id"]
     assert submit(client, {"fee": 0.002}).status_code == 409
+
+
+def test_bound_diagnostic_exposes_comparison_evidence_only(client):
+    import hashlib
+    import json
+    job = submit(client).json()
+    directory = settings.ARTIFACTS / job['id']
+    directory.mkdir(parents=True)
+    result = b'{}'
+    (directory / 'result.json').write_bytes(result)
+    diag = settings.ARTIFACTS / 'diagnostic-boundary-test'
+    diag.mkdir()
+    (diag / 'diagnostic.json').write_text(json.dumps({'job_id': job['id'],
+        'source_result_sha256': hashlib.sha256(result).hexdigest()}))
+    (diag / 'comparison-boundaries.jsonl').write_text('{"in_window_difference_rows":0}\n')
+    prefix = f"/api/experiments/{job['id']}/diagnostics"
+    files = client.get(prefix).json()[0]['files']
+    assert 'comparison-boundaries.jsonl' in {f['name'] for f in files}
+    assert client.get(prefix + '/diagnostic-boundary-test/comparison-boundaries.jsonl').status_code == 200
+    assert client.get(prefix + '/diagnostic-boundary-test/effective-config.json').status_code == 404

@@ -170,7 +170,7 @@ def diagnostic_reports(job_id: str):
         if report.get("job_id") == job_id and report.get("source_result_sha256") == digest:
             report["id"] = path.parent.name
             report["files"] = [{"name": name, "url": f"/api/experiments/{job_id}/diagnostics/{path.parent.name}/{name}"}
-                               for name in ("diagnostic.json", "lookahead.csv", "lookahead.log", "boundary-audit.json") if (path.parent / name).is_file()]
+                               for name in ("diagnostic.json", "lookahead.csv", "lookahead.log", "boundary-audit.json", "comparison-boundaries.jsonl") if (path.parent / name).is_file()]
             reports.append(report)
     return reports
 
@@ -182,7 +182,7 @@ def diagnostics(job_id: str):
 
 @app.get("/api/experiments/{job_id}/diagnostics/{diagnostic_id}/{filename}")
 def diagnostic_artifact(job_id: str, diagnostic_id: str, filename: str):
-    if filename not in {"diagnostic.json", "lookahead.csv", "lookahead.log", "boundary-audit.json"}:
+    if filename not in {"diagnostic.json", "lookahead.csv", "lookahead.log", "boundary-audit.json", "comparison-boundaries.jsonl"}:
         raise HTTPException(404, "Diagnostic file not found")
     if not any(r["id"] == diagnostic_id for r in diagnostic_reports(job_id)):
         raise HTTPException(404, "Diagnostic not linked to this experiment")

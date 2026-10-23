@@ -58,10 +58,16 @@ def run(job_id: str, signals: int = 20) -> dict:
                "--data-format-ohlcv", "feather", "--minimum-trade-amount", "5", "--targeted-trade-amount", str(signals),
                "--lookahead-analysis-exportfilename", str(target / "lookahead.csv"), "--no-color"]
     if cfg["strategy"] == "FreqaiTrend":
+        adapter = target / 'lookahead_runner.py'
+        shutil.copy2(Path(__file__).with_name('lookahead_runner.py'), adapter)
+        command[1:3] = [str(adapter)]
         command += ["--freqaimodel", "PurgedLightGBMRegressor", "--freqaimodel-path", str(target / "models")]
     report = {"job_id": job_id, "strategy": cfg["strategy"], "source_result_sha256": sha256(source / "result.json"),
               "path": str(target), "command": command, "status": "unverified",
               "scope": "Sampled upstream lookahead check only; intentional FreqAI target columns can be flagged. Raw output preserved. Does not prove universal absence of leakage."}
+    if cfg['strategy'] == 'FreqaiTrend':
+        report.update(comparison_policy='freqai-half-open-v1', adapter_sha256=sha256(adapter),
+                      scope='Freqtrade 2026.9 抽样交易检查，并比较预测结束时刻之前的全部指标列；额外执行 K 线仍参与交易检查。边界原始差异保存在 comparison-boundaries.jsonl，没有忽略任何指标列。通过仅限本次抽样，不证明普遍无前视偏差。')
     write_json(target / "diagnostic.json", report)
     env = {k: v for k, v in os.environ.items() if not k.startswith("FREQTRADE__")}
     env.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
@@ -74,6 +80,20 @@ def run(job_id: str, signals: int = 20) -> dict:
                     rows = list(csv.DictReader(table))
                 report["rows"] = rows
                 report["status"] = classify(rows)
+                if cfg['strategy'] == 'FreqaiTrend':
+                    boundary_file = target / 'comparison-boundaries.jsonl'
+                    evidence = [json.loads(line) for line in boundary_file.read_text(encoding='utf-8').splitlines()] if boundary_file.exists() else []
+                    expected = 2 * sum(int(row['total_signals']) for row in rows)
+                    report['boundary_comparisons'] = len(evidence)
+                    report['raw_difference_comparisons'] = sum(bool(e['raw_difference_columns']) for e in evidence)
+                    report['in_window_difference_rows'] = sum(e['in_window_difference_rows'] for e in evidence)
+                    if not evidence or len(evidence) != expected:
+                        report['status'] = 'unverified'
+                        report['error'] = 'Incomplete comparison-boundary evidence'
+                    elif report['in_window_difference_rows']:
+                        report['status'] = 'flagged'
+                    if boundary_file.exists():
+                        report['boundary_evidence_sha256'] = sha256(boundary_file)
         except subprocess.TimeoutExpired:
             report["error"] = "Diagnostic exceeded 1200 seconds"
     report["log_sha256"] = sha256(target / "lookahead.log")
