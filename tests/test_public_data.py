@@ -44,6 +44,26 @@ def test_versions_immutable_dedup_guid_revision_and_reversion():
     assert news.list_items(asset='ETH')==[]
 
 
+def test_legacy_news_unique_constraint_migrates_without_losing_versions():
+    first = version()
+    target = ps.path()
+    with sqlite3.connect(target) as conn:
+        saved = conn.execute('SELECT * FROM news').fetchall()
+        conn.execute('DROP TABLE news')
+        conn.execute('''CREATE TABLE news(id TEXT PRIMARY KEY, source TEXT NOT NULL, item_key TEXT NOT NULL,
+            content_hash TEXT NOT NULL, first_seen_at TEXT NOT NULL, revision_seen_at TEXT NOT NULL,
+            record TEXT NOT NULL, UNIQUE(source,item_key,content_hash))''')
+        conn.executemany('INSERT INTO news VALUES(?,?,?,?,?,?,?)', saved)
+    assert news.ingest('federal_reserve',feed(description='Changed'))['new_versions'] == 1
+    assert news.ingest('federal_reserve',feed())['new_versions'] == 1
+    assert news.get(first['id']) == first
+    with ps.connect() as conn:
+        assert conn.execute('SELECT COUNT(*) FROM news').fetchone()[0] == 3
+    with pytest.raises(sqlite3.IntegrityError):
+        with ps.connect() as conn:
+            conn.execute('DELETE FROM news WHERE id=?', (first['id'],))
+
+
 def test_observation_time_future_publication_and_safe_content():
     news.ingest('federal_reserve',feed(description='<script>steal()</script><b>Hello</b> &amp; world',date='Fri, 15 Oct 2038 00:00:00 GMT'))
     item=news.list_items()[0]

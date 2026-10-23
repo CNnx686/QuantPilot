@@ -29,7 +29,8 @@ def build(job):
                  f"原始结果绑定诊断状态：{verified['diagnostic_status']}；关联研究 {len(research)} 项，保存的发布审核 {len(releases)} 项。",
                  '本报告仅复述历史证据，不推断风险决策、模型信心或获利原因；最终保留测试仍未验证。']
     if job['config']['strategy'] == 'FreqaiTrend':
-        narrative.append('ML 仅限历史研究（historical-only），未来数据诊断疑虑未解决，禁止用于模拟部署。')
+        detail = '前视检查仅抽样通过，不证明普遍无偏差' if verified['diagnostic_status'] == 'passed_sampled' else '前视检查未通过或未完成，须继续核查'
+        narrative.append(f'ML 仅限历史研究（historical-only）；{detail}；模型尚未实现在线执行，禁止用于模拟部署。')
     if any(item.get('news_evidence') for item in research):
         context_limit = '关联新闻仅用于今天提出研究假设；其可知时间晚于历史回测区间，未作为历史特征，也不能解释该实验收益。'
         narrative.append(context_limit)

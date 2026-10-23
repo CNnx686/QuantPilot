@@ -30,6 +30,32 @@ def path():
     return settings.HOME / 'runtime' / 'mvp2-data.sqlite3'
 
 
+def migrate_legacy_news(conn):
+    """Remove the old content-uniqueness constraint, preserving revision history."""
+    def legacy():
+        return any(index['unique'] and [row['name'] for row in conn.execute(
+            'SELECT name FROM pragma_index_info(?)', (index['name'],))] ==
+            ['source', 'item_key', 'content_hash'] for index in conn.execute('PRAGMA index_list(news)'))
+    if not legacy():
+        return
+    with conn:
+        conn.execute('BEGIN IMMEDIATE')
+        if not legacy():  # another connection may already have migrated it
+            return
+        columns = ['id','source','item_key','content_hash','first_seen_at','revision_seen_at','record']
+        if [row['name'] for row in conn.execute('PRAGMA table_info(news)')] != columns:
+            raise ValueError('Unsupported legacy news schema; migration not applied')
+        conn.execute('CREATE TABLE news_revision_migration(id TEXT PRIMARY KEY, source TEXT NOT NULL, '
+                     'item_key TEXT NOT NULL, content_hash TEXT NOT NULL, first_seen_at TEXT NOT NULL, '
+                     'revision_seen_at TEXT NOT NULL, record TEXT NOT NULL)')
+        conn.execute('INSERT INTO news_revision_migration SELECT * FROM news ORDER BY rowid')
+        conn.execute('DROP TABLE news')
+        conn.execute('ALTER TABLE news_revision_migration RENAME TO news')
+        for action in ('UPDATE', 'DELETE'):
+            conn.execute(f"CREATE TRIGGER immutable_news_{action.lower()} BEFORE {action} ON news "
+                         "BEGIN SELECT RAISE(ABORT,'News versions are immutable'); END")
+
+
 @contextmanager
 def connect():
     target = path()
@@ -37,6 +63,11 @@ def connect():
     conn = sqlite3.connect(target, timeout=10)
     conn.row_factory = sqlite3.Row
     conn.execute('PRAGMA journal_mode=WAL')
+    try:
+        migrate_legacy_news(conn)
+    except Exception:
+        conn.close()
+        raise
     conn.executescript('''
         CREATE TABLE IF NOT EXISTS jobs(id TEXT PRIMARY KEY, kind TEXT NOT NULL, source TEXT NOT NULL,
           payload TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL,

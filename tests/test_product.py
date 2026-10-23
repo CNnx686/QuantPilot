@@ -100,3 +100,32 @@ def test_system_counts_worker_and_doctor(client, evidence, monkeypatch):
     assert value['saved_counts'] == {'experiments': 1, 'research': 1, 'releases': 0}
     assert value['version'] == doctor.VERSION
     assert isinstance(doctor.snapshot()['checklist'], list)
+
+
+def test_system_retains_actual_saved_deployment_status(client):
+    import sqlite3
+    target = settings.HOME / 'runtime' / 'deployments.sqlite3'
+    target.parent.mkdir(parents=True)
+    with sqlite3.connect(target) as conn:
+        conn.execute('CREATE TABLE deployments(id TEXT,record TEXT)')
+        conn.execute('INSERT INTO deployments VALUES(?,?)', ('saved', json.dumps({'id':'saved','status':'stopped'})))
+    value = client.get('/api/system').json()
+    assert value['deployments']['records'][0]['state'] == 'stopped'
+    assert value['deployments']['live_verified'] is False
+
+
+@pytest.mark.parametrize('status', ['passed_sampled','flagged','unverified'])
+def test_ml_report_explains_actual_diagnostic_without_enabling_deployment(client, evidence, monkeypatch, status):
+    from quantpilot import reports, replay
+    job = store.get(evidence[0]['id'])
+    verified = replay.build(job)
+    verified['diagnostic_status'] = status
+    monkeypatch.setattr(reports.replay, 'build', lambda _: verified)
+    job['config']['strategy'] = 'FreqaiTrend'
+    narrative = ' '.join(reports.build(job)['narrative'])
+    assert '禁止用于模拟部署' in narrative
+    if status == 'passed_sampled':
+        assert '疑虑未解决' not in narrative
+        assert '仅抽样通过' in narrative
+    else:
+        assert '未通过或未完成' in narrative

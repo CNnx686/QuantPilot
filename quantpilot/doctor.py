@@ -55,8 +55,9 @@ def snapshot(dataset_loader=None):
         try:
             with closing(read_connection(path)) as conn:
                 records = [json.loads(row[0]) for row in conn.execute('SELECT record FROM deployments ORDER BY rowid DESC')]
-            deployments.update(database_readable=True, records=[{k: row.get(k) for k in
-                               ('id', 'release_id', 'state', 'created_at')} for row in records])
+            deployments.update(database_readable=True, records=[{
+                **{k: row.get(k) for k in ('id', 'release_id', 'created_at')},
+                'state': row.get('status') or row.get('state') or 'unknown'} for row in records])
         except (sqlite3.Error, ValueError, TypeError, AttributeError, OSError):
             pass
     # Only boolean configuration metadata leaves this process; no URL/model/key is emitted.

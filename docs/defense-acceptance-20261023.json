@@ -1,0 +1,207 @@
+{
+  "verification": {
+    "verified_at": "2026-10-23T12:39:07.145864+00:00",
+    "files": {
+      "system.json": {
+        "endpoint": "/api/system",
+        "sha256": "1525dd8c1c2915cb63905178329942d824c52bd701ff5ec73ae1453905bad7e7"
+      },
+      "sma-q2.json": {
+        "endpoint": "/api/experiments/f37527ed-c2f9-4dfc-a75c-1a511a3a2133/report/download?format=json",
+        "sha256": "8f8123912ac262953a7eefc46673e2dcf55ef82bbc18e7017a347337ee1c4f20",
+        "metrics": {
+          "net_return": 0.022268021222,
+          "profit_abs": 222.68021222000002,
+          "max_drawdown": 0.03034158960700006,
+          "trades": 60,
+          "win_rate": 0.31666666666666665,
+          "initial_balance": 10000.0,
+          "final_balance": 10222.68021222,
+          "turnover": 12.03161032857
+        }
+      },
+      "sma-q2.html": {
+        "endpoint": "/api/experiments/f37527ed-c2f9-4dfc-a75c-1a511a3a2133/report/download?format=html",
+        "sha256": "4f0287542b9565b4cb3bb71b88518c88d14e8d052ac6339cba0b4764f36c5d72"
+      },
+      "freqai-q2.json": {
+        "endpoint": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/report/download?format=json",
+        "sha256": "39ef119402920400abb12a76ddafc0ca378828a44365948d448448725832e822",
+        "metrics": {
+          "net_return": -0.011863526217999996,
+          "profit_abs": -118.63526217999996,
+          "max_drawdown": 0.03350156098987778,
+          "trades": 211,
+          "win_rate": 0.4597156398104265,
+          "initial_balance": 10000.0,
+          "final_balance": 9881.36473782,
+          "turnover": 42.21983809492
+        }
+      },
+      "freqai-q2.html": {
+        "endpoint": "/api/experiments/7dbbf255-99bc-45b4-bd29-ab47e80f2c65/report/download?format=html",
+        "sha256": "c75d6bfd037433090a2a836e2cc9e21312185a0d406963c88699e7b57204abde"
+      },
+      "freqai-q3.json": {
+        "endpoint": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/report/download?format=json",
+        "sha256": "d3954b9f90fc89617f8597b88e6a36d7a3ed31981832a566b11b8cf6afdc1b14",
+        "metrics": {
+          "net_return": 0.010465361713000002,
+          "profit_abs": 104.65361713000001,
+          "max_drawdown": 0.02140755229752725,
+          "trades": 160,
+          "win_rate": 0.46875,
+          "initial_balance": 10000.0,
+          "final_balance": 10104.65361713,
+          "turnover": 32.03309182606
+        }
+      },
+      "freqai-q3.html": {
+        "endpoint": "/api/experiments/0394258d-f92c-45a8-9318-cc1a61f4469e/report/download?format=html",
+        "sha256": "fac8be2804378e4e78cac4c911cf0f695deb166f46c3d67d269845ba0d2fb94e"
+      },
+      "sma-job.json": {
+        "endpoint": "/api/experiments/f37527ed-c2f9-4dfc-a75c-1a511a3a2133",
+        "sha256": "04b6cf5436dc28efdb0aa9778a2918eca45bd656a0362e77e44036d399d6b77d"
+      },
+      "sma-original.json": {
+        "endpoint": "/api/experiments/f8f8185a-5875-4756-802b-b0b4dc19f4f3/report",
+        "sha256": "0520a5b2a9f0cf9748a940359b26641cf5ea9d47cc6784e1bb6cc075c665f31d"
+      },
+      "comparison-q2.json": {
+        "endpoint": "/api/comparison?ids=f37527ed-c2f9-4dfc-a75c-1a511a3a2133,7dbbf255-99bc-45b4-bd29-ab47e80f2c65",
+        "sha256": "218ff5d84e95544dec4629a514b8af826328c582ae09bf9402d494670d3feef8"
+      },
+      "comparison-mismatched.json": {
+        "endpoint": "/api/comparison?ids=f37527ed-c2f9-4dfc-a75c-1a511a3a2133,0394258d-f92c-45a8-9318-cc1a61f4469e",
+        "sha256": "81bbb59f2b6df2a42a70f20d9d3ad645eafc0e7db1eb2161d7dbb2a583863780"
+      },
+      "sma-replay.json": {
+        "endpoint": "/api/experiments/f37527ed-c2f9-4dfc-a75c-1a511a3a2133/replay",
+        "sha256": "37696a1765bab252eaa583917140e35640036616a556f48f2954d68d0beda97c"
+      },
+      "releases.json": {
+        "endpoint": "/api/releases",
+        "sha256": "9ab86948ae06bc70878335217d0ca2e000b044095a22cd7783e911abc3bba2f3"
+      },
+      "simulation-stopped.json": {
+        "endpoint": "/api/deployments/bf7cf2e7-c6a3-4299-9bc1-97a414449fce",
+        "sha256": "13f549049e0344c94f76ebe21cf9e6cfcc979d32db4576b6d56a192acc824fa8"
+      },
+      "markets.json": {
+        "endpoint": "/api/data/exchanges",
+        "sha256": "98d78c4b1f5c6fb3a012e94f09336392df45d7e3ca90ed7e40a1bf00074bb66c"
+      },
+      "news-sources.json": {
+        "endpoint": "/api/news/sources",
+        "sha256": "727d6605feecbda15dabd310d11767b295888314cda46c1e9660829c60b1d9f8"
+      },
+      "news-example.json": {
+        "endpoint": "/api/news/a357eb4e-c57a-40b0-8382-e057373295fb",
+        "sha256": "05d8f2d10defef7635a93fd1221d141de98c4ce11342ef3e361e6078a4dd858f"
+      },
+      "news-research.json": {
+        "endpoint": "/api/research/d59c141a-a0e0-5bc5-8a6d-e26786b2a9d3",
+        "sha256": "6af298f090a5b820fdb086be4de018b8fe177da4cb3b5b223109f4367e944454"
+      },
+      "public-job-c1b2df38-288d-41dc-a929-c973d700a88f.json": {
+        "endpoint": "/api/data/jobs/c1b2df38-288d-41dc-a929-c973d700a88f",
+        "sha256": "8f73b51b8d364b563760ae9f2a9335585791645dba525f7cba96172715145520",
+        "status": "succeeded"
+      },
+      "public-job-6da743e3-1f18-462f-bdbf-b6a2aa985ace.json": {
+        "endpoint": "/api/data/jobs/6da743e3-1f18-462f-bdbf-b6a2aa985ace",
+        "sha256": "19d7d205a4ee2e52fd643bf09d82509ed5031730528b0a20691c9051bb7af361",
+        "status": "succeeded"
+      },
+      "public-job-6afd1a75-e24d-4005-b024-8700cde5df58.json": {
+        "endpoint": "/api/data/jobs/6afd1a75-e24d-4005-b024-8700cde5df58",
+        "sha256": "0be97f609e5bee14e1c0f99823135f836d799ba77583a812cff4c1bb2af86d78",
+        "status": "succeeded"
+      },
+      "public-job-4d41ac51-31ff-41c4-b182-5a84136fc384.json": {
+        "endpoint": "/api/data/jobs/4d41ac51-31ff-41c4-b182-5a84136fc384",
+        "sha256": "168f517398e59dce58db09f860767763b99c2a8498c726b26e0cbf2563597b5d",
+        "status": "succeeded"
+      },
+      "public-job-4ec00fdc-b114-4dba-89d2-5f4f480411ca.json": {
+        "endpoint": "/api/data/jobs/4ec00fdc-b114-4dba-89d2-5f4f480411ca",
+        "sha256": "09a4c614c94bf6fcc05b4150f288e98ce6dc360f0822775030182aeafb0c7b79",
+        "status": "failed"
+      },
+      "public-job-9c22d544-4a1e-4add-8d15-d060f2c383ba.json": {
+        "endpoint": "/api/data/jobs/9c22d544-4a1e-4add-8d15-d060f2c383ba",
+        "sha256": "eb65a16868596814040ce4f5b283e5a14f39c2390b8efffb2c795aaefdad1143",
+        "status": "succeeded"
+      },
+      "public-job-524c8920-b0ed-4455-895a-15e936a61f77.json": {
+        "endpoint": "/api/data/jobs/524c8920-b0ed-4455-895a-15e936a61f77",
+        "sha256": "277358a9f68ef060212604a179968a438aa1e5ebc14b2853c6bc42734c17b1f1",
+        "status": "succeeded"
+      },
+      "rl-results.json": {
+        "endpoint": "/api/rl/jobs/rl-00b1bad30cca4c9a9a909e9744e13aad/results",
+        "sha256": "eb6528a19a9b74bde137c14c09d2245bcf89fdd3387c7cf8adcebc9e5b258f63"
+      },
+      "rl-readiness.json": {
+        "endpoint": "/api/rl/readiness",
+        "sha256": "6e29bca3b01ea30ab28367ab7d26ee63b2cc02936975ce6aeef8cbd56e42078e"
+      },
+      "live-public-status.json": {
+        "endpoint": "/api/live/status",
+        "sha256": "031b03cd36b3f4a3cbf94f46b3d192eb22481a945c90b6f7105c49eb620225a2"
+      }
+    },
+    "checks": "Assertions passed; no private endpoints or trading writes invoked by this exporter"
+  },
+  "files_sha256": {
+    "browser-report.png": "975b1bb8e8b631734a85ee6cf38163f551e00daebda98501ed4dea7a75167815",
+    "comparison-mismatched.json": "81bbb59f2b6df2a42a70f20d9d3ad645eafc0e7db1eb2161d7dbb2a583863780",
+    "comparison-q2.json": "218ff5d84e95544dec4629a514b8af826328c582ae09bf9402d494670d3feef8",
+    "defense-acceptance-20261023.html": "1e763750a4afd858d32e501bc566028dadff89ea7e88427c769d6a86a87f25ec",
+    "defense-acceptance-20261023.md": "173fc02c6f3385976779dbcb6ed2918cc724dd6346cb82299b62c41228a460c4",
+    "freqai-q2.html": "c75d6bfd037433090a2a836e2cc9e21312185a0d406963c88699e7b57204abde",
+    "freqai-q2.json": "39ef119402920400abb12a76ddafc0ca378828a44365948d448448725832e822",
+    "freqai-q3.html": "fac8be2804378e4e78cac4c911cf0f695deb166f46c3d67d269845ba0d2fb94e",
+    "freqai-q3.json": "d3954b9f90fc89617f8597b88e6a36d7a3ed31981832a566b11b8cf6afdc1b14",
+    "index.json": "34d12fa3aef7074839635143f5a5ce524b212c8d497bc49e851bf714b76b6b9d",
+    "live-public-status.json": "031b03cd36b3f4a3cbf94f46b3d192eb22481a945c90b6f7105c49eb620225a2",
+    "markets.json": "98d78c4b1f5c6fb3a012e94f09336392df45d7e3ca90ed7e40a1bf00074bb66c",
+    "news-example.json": "05d8f2d10defef7635a93fd1221d141de98c4ce11342ef3e361e6078a4dd858f",
+    "news-research.json": "6af298f090a5b820fdb086be4de018b8fe177da4cb3b5b223109f4367e944454",
+    "news-sources.json": "727d6605feecbda15dabd310d11767b295888314cda46c1e9660829c60b1d9f8",
+    "public-job-4d41ac51-31ff-41c4-b182-5a84136fc384.json": "168f517398e59dce58db09f860767763b99c2a8498c726b26e0cbf2563597b5d",
+    "public-job-4ec00fdc-b114-4dba-89d2-5f4f480411ca.json": "09a4c614c94bf6fcc05b4150f288e98ce6dc360f0822775030182aeafb0c7b79",
+    "public-job-524c8920-b0ed-4455-895a-15e936a61f77.json": "277358a9f68ef060212604a179968a438aa1e5ebc14b2853c6bc42734c17b1f1",
+    "public-job-6afd1a75-e24d-4005-b024-8700cde5df58.json": "0be97f609e5bee14e1c0f99823135f836d799ba77583a812cff4c1bb2af86d78",
+    "public-job-6da743e3-1f18-462f-bdbf-b6a2aa985ace.json": "19d7d205a4ee2e52fd643bf09d82509ed5031730528b0a20691c9051bb7af361",
+    "public-job-9c22d544-4a1e-4add-8d15-d060f2c383ba.json": "eb65a16868596814040ce4f5b283e5a14f39c2390b8efffb2c795aaefdad1143",
+    "public-job-c1b2df38-288d-41dc-a929-c973d700a88f.json": "8f73b51b8d364b563760ae9f2a9335585791645dba525f7cba96172715145520",
+    "releases.json": "9ab86948ae06bc70878335217d0ca2e000b044095a22cd7783e911abc3bba2f3",
+    "rl-readiness.json": "6e29bca3b01ea30ab28367ab7d26ee63b2cc02936975ce6aeef8cbd56e42078e",
+    "rl-results.json": "eb6528a19a9b74bde137c14c09d2245bcf89fdd3387c7cf8adcebc9e5b258f63",
+    "simulation-stopped.json": "13f549049e0344c94f76ebe21cf9e6cfcc979d32db4576b6d56a192acc824fa8",
+    "sma-job.json": "04b6cf5436dc28efdb0aa9778a2918eca45bd656a0362e77e44036d399d6b77d",
+    "sma-original.json": "0520a5b2a9f0cf9748a940359b26641cf5ea9d47cc6784e1bb6cc075c665f31d",
+    "sma-q2.html": "4f0287542b9565b4cb3bb71b88518c88d14e8d052ac6339cba0b4764f36c5d72",
+    "sma-q2.json": "8f8123912ac262953a7eefc46673e2dcf55ef82bbc18e7017a347337ee1c4f20",
+    "sma-replay.json": "37696a1765bab252eaa583917140e35640036616a556f48f2954d68d0beda97c",
+    "system.json": "1525dd8c1c2915cb63905178329942d824c52bd701ff5ec73ae1453905bad7e7",
+    "打开这里.html": "d6984976618c3e6b0e0b4ae89ab2838aad365266055efdc7bc408360a3a54ddb",
+    "答辩演示操作流程.html": "7dcad66351903dcc722484f543bbd19e4ecfd664b9f02af5b6faaa53c11c4de9",
+    "答辩演示操作流程.md": "c9dca0ce85fa399722d859ff6029a07639604f2b8c80d3bcdb4c4dc3a346070f"
+  },
+  "tests": {
+    "main_passed": 216,
+    "main_skipped": 1,
+    "isolated_rl_passed": 4,
+    "frontend_build": "passed",
+    "rl_evidence_files": 186
+  },
+  "limitations": [
+    "CoinDesk refresh failed",
+    "Online LLM unconfigured/unverified",
+    "Private accounts and real-money execution unverified",
+    "Final holdout untouched"
+  ]
+}

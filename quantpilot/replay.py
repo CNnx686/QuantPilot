@@ -61,7 +61,7 @@ def build(job):
     if diagnostic_status == 'flagged':
         limitations.append('Unresolved lookahead diagnostic: flagged. Historical replay does not clear this warning')
     if job['config']['strategy'] == 'FreqaiTrend':
-        limitations.append('ML remains historical-only and is blocked from simulation deployment; lookahead concerns are unresolved')
+        limitations.append('ML remains historical-only and is blocked from simulation deployment; sampled diagnostics do not establish live execution readiness')
     if result.get('ml'):
         path = safe_file(root, result['ml']['artifacts']['predictions'])
         replay_provenance['prediction_csv_read_sha256'] = sha256(path)
