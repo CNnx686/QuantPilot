@@ -1,5 +1,7 @@
 # QuantPilot
 
+**个人策略终端（新）：** 启动本机服务后打开 [http://127.0.0.1:8765/terminal/](http://127.0.0.1:8765/terminal/)。支持新建规则 / PPO / LightGBM 策略、真实历史训练回测、手动选定冻结候选、当前公开行情驱动的独立虚拟账户。详见 [实际操作与业务逻辑](docs/product/personal-quant-v1/live-workflow-guide.md)。新终端采用 `local_paper_v1`，下面的旧 Freqtrade/FreqAI 工作区和历史记录继续保留。
+
 面向课程答辩的量化策略研究平台。本目录为 **C 盘重建版本**：从幸存代码和开发记录恢复源码，重新安装环境、下载行情并生成演示实验。它不等同于原 D 盘的完整数据恢复。
 
 **答辩入口：** [完整演示操作流程](docs/答辩演示操作流程.md)（12 分钟 / 5 分钟版本、两人分工、逐页按钮、备用方案） · [2026-10-23 验收记录](docs/defense-acceptance-20261023.md)。本机已准备环境时双击 `launch.cmd`，无需再次安装。离线报告保存在 `artifacts/defense-pack-20261023`。

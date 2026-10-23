@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from .research import ExperimentInput
 
@@ -16,7 +17,7 @@ from . import settings, store
 from .data import get_dataset
 
 from .doctor import VERSION
-from . import public_worker, rl_worker
+from . import public_worker, rl_worker, terminal_worker
 
 
 @asynccontextmanager
@@ -30,6 +31,8 @@ async def lifespan(app):
         public_worker.start()
         cleanup.callback(rl_worker.stop)
         rl_worker.start()
+        cleanup.callback(terminal_worker.stop)
+        terminal_worker.start()
         yield
 
 
@@ -227,6 +230,13 @@ app.include_router(create_product_router(lambda: get_dataset()))
 app.include_router(create_public_router(lambda: get_dataset()))
 app.include_router(create_rl_router())
 app.include_router(live_router)
+
+from .terminal_api import create_router as create_terminal_router
+from .terminal_market_api import router as terminal_market_router
+
+app.include_router(create_terminal_router())
+app.include_router(terminal_market_router)
+app.mount('/terminal', StaticFiles(directory=settings.ROOT / 'apps' / 'terminal', html=True), name='terminal')
 
 
 @app.get("/{path:path}")
