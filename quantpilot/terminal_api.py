@@ -38,7 +38,7 @@ class StrategyInput(BaseModel):
     stake: float = Field(default=1000, ge=10, le=1e9)
     fee: float = Field(default=.001, ge=0, le=.02)
     parameters: Parameters = Field(default_factory=Parameters)
-    news: Literal[False] = False
+    news: bool = False
 
     @model_validator(mode='after')
     def validate_strategy(self):
@@ -55,7 +55,17 @@ class StrategyInput(BaseModel):
             raise ValueError('2025 Q4 remains reserved and cannot be used for development training')
         if self.stake * (1 + self.fee) > self.wallet:
             raise ValueError('Stake including entry fee must fit the virtual wallet')
+        if self.news:
+            validate_news_configuration(self.model_dump(mode='json'))
         return self
+
+
+def validate_news_configuration(config):
+    if config['kind'] not in {'rl', 'prediction'} or config['symbol'] not in {'BTC/USDT', 'ETH/USDT'}:
+        raise ValueError('News factors currently support BTC/ETH prediction and RL strategies')
+    days = (date.fromisoformat(config['end']) - date.fromisoformat(config['start'])).days
+    if not 14 <= days <= 31:
+        raise ValueError('News experiments require a bounded 14 to 31 day development interval')
 
 
 class EditInput(BaseModel):
@@ -100,7 +110,10 @@ def bootstrap():
     collections['jobs'] = [store.public_job(job) for job in collections['jobs']]
     return {**collections, 'server_time': store.now(),
         'capabilities': {'kinds': ['rule', 'rl', 'prediction'], 'exchange': 'binance', 'timeframes': ['1h'],
-            'news': False, 'live_trading': False, 'execution_engine': 'local_paper_v1',
+            'news': True, 'news_symbols': ['BTC/USDT', 'ETH/USDT'], 'news_kinds': ['rl', 'prediction'],
+            'news_schema': 'gdelt-sampled-6h-news4-v1', 'news_max_days': 31,
+            'news_defaults': {'start': '2025-01-01', 'end': '2025-01-15'},
+            'news_risk_rules': False, 'live_trading': False, 'execution_engine': 'local_paper_v1',
             'max_instances': worker.MAX_INSTANCES, 'max_active_jobs': 8,
             'rl_steps': {'min': 2048, 'max': 8192, 'values': [2048, 8192]},
             'date_bounds': {'start': '2025-01-01', 'end': '2025-10-01', 'minimum_days': 14},
@@ -139,9 +152,34 @@ def create_router():
         response.status_code = 201 if created else 200
         return store.public_job(job)
 
+    @router.post('/strategies/{identifier}/comparisons')
+    def comparison(identifier: str, response: Response, idempotency_key: str = Header(min_length=1, max_length=100)):
+        strategy = invoke(store.get, 'strategies', identifier)
+        invoke(validate_news_configuration, strategy['config'])
+        job, created = invoke(store.enqueue, identifier, token(idempotency_key), 'comparison')
+        response.status_code = 201 if created else 200
+        return store.public_job(job)
+
     @router.get('/jobs/{identifier}')
     def job(identifier: str):
         return store.public_job(invoke(store.get, 'jobs', identifier))
+
+    @router.get('/jobs/{identifier}/comparison')
+    def comparison_result(identifier: str):
+        job = invoke(store.get, 'jobs', identifier)
+        if job.get('mode') != 'comparison':
+            raise HTTPException(409, 'This task is not a paired comparison')
+        return job.get('comparison')
+
+    @router.get('/news')
+    def news(symbol: str = 'BTC/USDT', cutoff: str | None = None):
+        from .terminal_news import status
+        return invoke(status, symbol, cutoff, False)
+
+    @router.post('/news/refresh')
+    def refresh_news(symbol: str = 'BTC/USDT'):
+        from .terminal_news import status
+        return invoke(status, symbol, None, True)
 
     @router.post('/jobs/{identifier}/cancel')
     def cancel(identifier: str):

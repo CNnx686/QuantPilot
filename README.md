@@ -2,11 +2,13 @@
 
 **个人策略终端（新）：** 启动本机服务后打开 [http://127.0.0.1:8765/terminal/](http://127.0.0.1:8765/terminal/)。支持新建规则 / PPO / LightGBM 策略、真实历史训练回测、手动选定冻结候选、当前公开行情驱动的独立虚拟账户。详见 [实际操作与业务逻辑](docs/product/personal-quant-v1/live-workflow-guide.md)。新终端采用 `local_paper_v1`，下面的旧 Freqtrade/FreqAI 工作区和历史记录继续保留。
 
+**新闻模型阶段：** BTC/ETH 的 PPO 和 LightGBM 可实际使用四列新闻输入，并运行同条件的新闻开关对照。见[新闻操作说明](docs/product/personal-quant-v1/news-user-guide.md)及[新闻验证记录](docs/product/personal-quant-v1/news-verification.md)。新终端采用冻结训练/评估窗口与逐小时盯市净值；以下 90 天训练、30 天重训及 Freqtrade 已实现余额口径属于旧工作区，不能混用于新终端结果。
+
 面向课程答辩的量化策略研究平台。本目录为 **C 盘重建版本**：从幸存代码和开发记录恢复源码，重新安装环境、下载行情并生成演示实验。它不等同于原 D 盘的完整数据恢复。
 
 **答辩入口：** [完整演示操作流程](docs/答辩演示操作流程.md)（12 分钟 / 5 分钟版本、两人分工、逐页按钮、备用方案） · [2026-10-23 验收记录](docs/defense-acceptance-20261023.md)。本机已准备环境时双击 `launch.cmd`，无需再次安装。离线报告保存在 `artifacts/defense-pack-20261023`。
 
-## 当前范围
+## 原有 Freqtrade/FreqAI 工作区范围
 
 - 研究规格确认、历史回测、实验报告、同条件比较、诊断、发布审核、虚拟资金模拟和历史回放。
 - Binance 官方 BTC/USDT、ETH/USDT 小时 K 线；重建快照覆盖 2023-12-01 至 2025-10-01，每个品种 16,080 根。少量幸存的早期文件保留，原运行数据库未恢复。
@@ -53,7 +55,7 @@ cd C:\Users\20705\QuantPilot-Restored
 - 使用系统 HTTP(S) 代理环境时，CCXT 显式采用 aiohttp_trust_env；没有代理时直连。
 - 只绑定 127.0.0.1，不提供公网部署或多用户访问能力。
 
-## 结果解释
+## 原有 Freqtrade/FreqAI 结果解释
 
 默认手续费为每边 0.1%，初始资金 10,000 USDT，单笔名义投入 1,000 USDT，同时最多一个交易品种一笔持仓。费率可在表单调整。
 

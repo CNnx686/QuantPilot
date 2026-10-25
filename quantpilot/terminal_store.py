@@ -115,13 +115,15 @@ def job_directory(key):
     return settings.HOME / 'artifacts' / 'terminal' / key
 
 
-def enqueue(strategy_id, token):
+def enqueue(strategy_id, token, mode='single'):
+    if mode not in {'single', 'comparison'}:
+        raise ValueError('Unknown experiment mode')
     with connect() as conn:
         strategy = read(conn, 'strategies', strategy_id)
         previous = conn.execute('SELECT record FROM jobs WHERE token=?', (token,)).fetchone()
         if previous:
             item = json.loads(previous['record'])
-            if item['strategy_id'] != strategy_id:
+            if item['strategy_id'] != strategy_id or item.get('mode', 'single') != mode:
                 raise ValueError('Idempotency-Key belongs to another request')
             return item, False
         if sum(item['status'] in {'queued', 'running', 'cancelling'} for item in rows(conn, 'jobs')) >= 8:
@@ -130,7 +132,8 @@ def enqueue(strategy_id, token):
                 'revision': strategy['revision'], 'config': strategy['config'],
                 'config_sha256': digest(strategy['config']), 'status': 'queued', 'phase': 'queued',
                 'created_at': now(), 'started_at': None, 'finished_at': None,
-                'candidate_id': None, 'error': None, 'process': None}
+                'candidate_id': None, 'candidate_ids': [], 'mode': mode,
+                'comparison': None, 'error': None, 'process': None}
         conn.execute('INSERT INTO jobs VALUES(?,?,?)', (item['id'], token, dumps(item)))
         return item, True
 
@@ -148,7 +151,7 @@ def claim():
     return None
 
 
-def progress(key, phase, process=None):
+def progress(key, phase, process=None, comparison=None):
     with connect() as conn:
         item = read(conn, 'jobs', key)
         if item['status'] != 'running':
@@ -156,6 +159,8 @@ def progress(key, phase, process=None):
         item['phase'] = phase
         if process:
             item['process'] = process
+        if comparison is not None:
+            item['comparison'] = comparison
         save(conn, 'jobs', item)
 
 
@@ -174,19 +179,46 @@ def cancel(key):
         return item
 
 
-def finish(key, candidate=None, error=None):
+def finish(key, candidate=None, error=None, candidates=None, comparison=None):
     with connect() as conn:
         item = read(conn, 'jobs', key)
         if item['status'] not in {'running', 'cancelling'}:
             return item
         cancelled = item['status'] == 'cancelling'
-        status = 'cancelled' if cancelled else 'failed' if error or candidate is None else 'succeeded'
+        completed = candidates if candidates is not None else [candidate] if candidate is not None else []
+        status = 'cancelled' if cancelled else 'failed' if error or not completed else 'succeeded'
+        if item.get('mode') == 'comparison' and status == 'succeeded':
+            if (len(completed) != 2 or {value.get('variant') for value in completed} != {'price_only', 'price_news'}
+                    or not comparison or not comparison.get('comparable')):
+                raise ValueError('Comparison requires two complete comparable arms before publication')
         if status == 'succeeded':
-            frozen = {**candidate, 'strategy_id': item['strategy_id'], 'job_id': key,
-                      'revision': item['revision'], 'config': item['config'],
-                      'config_sha256': item['config_sha256'], 'created_at': now()}
-            conn.execute('INSERT INTO candidates VALUES(?,?)', (frozen['id'], dumps(frozen)))
-            item['candidate_id'] = frozen['id']
+            identifiers = []
+            for output in completed:
+                actual = output.get('config') or output.get('model_manifest', {}).get('config') or item['config']
+                expected = dict(item['config'])
+                if item.get('mode') == 'comparison':
+                    expected['news'] = output.get('variant') == 'price_news'
+                    if output.get('variant') not in {'price_only', 'price_news'}:
+                        raise ValueError('Unknown comparison arm')
+                if actual != expected:
+                    raise ValueError('Training output differs from the frozen task configuration')
+                frozen = {**output, 'strategy_id': item['strategy_id'], 'job_id': key,
+                          'revision': item['revision'], 'config': actual,
+                          'config_sha256': digest(actual), 'source_config_sha256': item['config_sha256'],
+                          'created_at': now()}
+                conn.execute('INSERT INTO candidates VALUES(?,?)', (frozen['id'], dumps(frozen)))
+                identifiers.append(frozen['id'])
+            item['candidate_ids'] = identifiers
+            item['candidate_id'] = identifiers[0] if len(identifiers) == 1 else None
+        if comparison is not None:
+            item['comparison'] = comparison
+        if item.get('comparison') and status != 'succeeded':
+            item['comparison'] = {**item['comparison'], 'status': status, 'comparable': False, 'delta': None}
+            for arm in item['comparison'].get('arms', {}).values():
+                if arm.get('status') in {'running', 'pending'}:
+                    arm.update(status=('not_run' if arm['status'] == 'pending' else
+                                       'cancelled' if status == 'cancelled' else 'failed'),
+                               error=error or ('Comparison cancelled' if status == 'cancelled' else 'Comparison interrupted'))
         item.update(status=status, phase=status, error=error, finished_at=now(), process=None)
         save(conn, 'jobs', item)
         return item
@@ -198,7 +230,7 @@ def select_candidate(strategy_id, candidate_id):
         candidate = read(conn, 'candidates', candidate_id)
         if candidate['strategy_id'] != strategy_id:
             raise ValueError('Candidate belongs to another strategy')
-        if candidate['config_sha256'] != digest(strategy['config']):
+        if candidate.get('source_config_sha256', candidate['config_sha256']) != digest(strategy['config']):
             raise ValueError('Candidate belongs to an earlier configuration; train this saved revision first')
         strategy.update(selected_candidate_id=candidate_id, updated_at=now())
         save(conn, 'strategies', strategy)
@@ -219,4 +251,12 @@ def complete_operation(conn, token, name, payload, response):
 
 
 def public_job(item):
-    return {key: value for key, value in item.items() if key != 'process'}
+    result = {key: value for key, value in item.items() if key != 'process'}
+    if item['status'] in {'running', 'cancelling'}:
+        try:
+            path = job_directory(item['id']) / 'news-progress.json'
+            if path.is_file():
+                result['news_progress'] = json.loads(path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            pass
+    return result

@@ -1,0 +1,9 @@
+# Frozen model manifests hash these source files byte for byte.
+# Preserve their existing LF bytes even on Windows with core.autocrlf=true.
+quantpilot/terminal_engine.py text eol=lf
+quantpilot/terminal_features.py text eol=lf
+quantpilot/terminal_rl.py text eol=lf
+quantpilot/terminal_news_engine.py text eol=lf
+quantpilot/terminal_news_rl.py text eol=lf
+quantpilot/terminal_news_features.py text eol=lf
+quantpilot/terminal_news.py text eol=lf

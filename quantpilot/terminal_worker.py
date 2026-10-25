@@ -21,6 +21,13 @@ _threads = []
 MAX_INSTANCES = 4
 
 
+class NewsInputError(ValueError):
+    """Stable dependency failure code with a separately retained diagnostic."""
+    def __init__(self, detail):
+        self.detail = str(detail)[:1000] or type(detail).__name__
+        super().__init__('news_input_error: ' + self.detail)
+
+
 def model_directory(candidate):
     path = Path(candidate['artifact_dir']).resolve()
     root = store.job_directory(candidate['job_id']).resolve()
@@ -30,7 +37,10 @@ def model_directory(candidate):
 
 
 def verify_candidate(candidate):
-    from .terminal_engine import verify_model
+    if candidate['config'].get('news'):
+        from .terminal_news_engine import verify_model
+    else:
+        from .terminal_engine import verify_model
     if candidate['config_sha256'] != store.digest(candidate['config']):
         raise ValueError('Frozen candidate configuration is inconsistent')
     manifest = verify_model(model_directory(candidate))
@@ -72,9 +82,24 @@ def price(market, side):
 
 
 def prediction_for(candidate, market):
-    from .terminal_engine import predict
     from .terminal_market import closed_frame
     verify_candidate(candidate)
+    if candidate['config'].get('news'):
+        from .terminal_news import current_snapshot
+        from .terminal_news_engine import predict
+        frame = closed_frame(market)
+        try:
+            snapshot = current_snapshot(refresh=False)
+        except (ValueError, TypeError, KeyError, OSError) as exc:
+            raise NewsInputError(exc) from exc
+        try:
+            return predict(model_directory(candidate), frame, snapshot)
+        except (ValueError, TypeError, KeyError) as exc:
+            # Distinguish damaged/incompatible frozen model files from malformed current
+            # inputs. Re-verification also closes the change-between-check-and-predict race.
+            verify_candidate(candidate)
+            raise NewsInputError(exc) from exc
+    from .terminal_engine import predict
     return predict(model_directory(candidate), closed_frame(market))
 
 
@@ -152,27 +177,33 @@ def create_instance(strategy_id, candidate_id, token):
             return json.loads(old['record']), False
     strategy = store.get('strategies', strategy_id)
     candidate = store.get('candidates', candidate_id)
-    if candidate['strategy_id'] != strategy_id or candidate['config_sha256'] != store.digest(strategy['config']):
+    source_hash = candidate.get('source_config_sha256', candidate['config_sha256'])
+    if candidate['strategy_id'] != strategy_id or source_hash != store.digest(strategy['config']):
         raise ValueError('Candidate does not belong to this saved strategy configuration')
     if strategy['selected_candidate_id'] != candidate_id:
         raise ValueError('Select this candidate before starting its simulated instance')
     verify_candidate(candidate)
     market = valid_market(market_snapshot(candidate['symbol']))
     predicted = prediction_for(candidate, market)
-    if not predicted.get('valid'):
+    news_wait = candidate['config'].get('news') and str(predicted.get('reason', '')).startswith('news_')
+    if not predicted.get('valid') and not news_wait:
         raise ValueError(predicted.get('reason') or 'Current model input is invalid')
     config = candidate['config']
     item = {'id': store.identifier('instance'), **request, 'name': config['name'], 'kind': config['kind'],
             'symbol': config['symbol'], 'config': config, 'mode': 'paper', 'execution_engine': 'local_paper_v1',
             'status': 'starting', 'entry_enabled': False, 'user_paused': False, 'stop_requested': False,
-            'created_at': store.now(), 'updated_at': store.now(), 'error': None,
+            'created_at': store.now(), 'updated_at': store.now(),
+            'error': predicted.get('reason') if not predicted.get('valid') else None,
             'last_decision_at': None, 'cash': config['wallet'], 'equity': config['wallet'],
             'initial_balance': config['wallet'], 'realized_pnl': 0.0, 'position': None,
-            'orders': [], 'trades': [], 'decisions': [], 'market': market}
+            'orders': [], 'trades': [], 'decisions': [], 'market': market,
+            'news': predicted.get('news'), 'news_blocked': bool(news_wait and not predicted.get('valid')),
+            'news_has_run': bool(config.get('news') and predicted.get('valid')),
+            'news_resume_required': False}
     with store.connect() as conn:
         # Recheck all mutable bindings after current-data/model preparation.
         strategy = store.read(conn, 'strategies', strategy_id)
-        if strategy['selected_candidate_id'] != candidate_id or store.digest(strategy['config']) != candidate['config_sha256']:
+        if strategy['selected_candidate_id'] != candidate_id or store.digest(strategy['config']) != source_hash:
             raise ValueError('Strategy changed during startup; refresh before starting')
         old = conn.execute('SELECT request,record FROM instances WHERE token=?', (token,)).fetchone()
         if old:
@@ -195,24 +226,40 @@ def tick(identifier, *, market=None, predicted=None):
         return initial
     candidate = store.get('candidates', initial['candidate_id'])
     failure = None
+    failure_detail = None
     try:
         market = valid_market(market or market_snapshot(initial['symbol']))
         latest = market.get('last_closed_at')
         if (predicted is None and initial['last_decision_at'] and latest
-                and latest <= initial['last_decision_at'] and not initial.get('error')):
+                and latest <= initial['last_decision_at'] and not initial.get('error')
+                and not candidate['config'].get('news')):
             # Refresh quote/equity without repeatedly loading PPO on an already consumed bar.
             predicted = {'valid': True, 'action': 'hold', 'decision_at': initial['last_decision_at']}
         else:
             predicted = predicted or prediction_for(candidate, market)
         if not predicted.get('valid'):
             failure = predicted.get('reason') or 'Model input is invalid'
+    except NewsInputError as exc:
+        failure, failure_detail = 'news_input_error', exc.detail
     except Exception as exc:
         failure = str(exc)[:1000] or type(exc).__name__
     with store.connect() as conn:
         item = store.read(conn, 'instances', identifier)
         if item['status'] == 'stopped':
             return item
-        item.update(error=failure, updated_at=store.now())
+        if predicted and predicted.get('news') is not None:
+            item['news'] = predicted['news']
+        item['news_blocked'] = bool(item['config'].get('news') and failure and str(failure).startswith('news_'))
+        if item['news_blocked'] and item.get('news_has_run'):
+            item['news_resume_required'] = True
+        if item['news_blocked']:
+            item['news_last_error'] = {'code': failure, 'detail': failure_detail,
+                                       'observed_at': store.now(), 'cutoff': (market or {}).get('last_closed_at')}
+        if item['config'].get('news') and predicted and predicted.get('valid') and not failure:
+            item['news_has_run'] = True
+        item.update(error=failure or ('news_resume_required' if item.get('news_resume_required') else None),
+                    error_detail=(failure_detail or item.get('error_detail')) if item.get('news_resume_required') else failure_detail,
+                    updated_at=store.now())
         if market:
             mark(item, market)
         status(item)
@@ -229,23 +276,35 @@ def tick(identifier, *, market=None, predicted=None):
         decision_at = predicted.get('decision_at') if predicted else (closed or {}).get('closed_at')
         if decision_at and (item['last_decision_at'] is None or decision_at > item['last_decision_at']) and market_ok:
             raw = predicted.get('action', 'hold') if predicted and not failure else 'hold'
-            action, reason = raw, (predicted or {}).get('reason') or 'model_signal'
+            action, reason = raw, failure or (predicted or {}).get('reason') or 'model_signal'
             position = item['position']
             stop_hit = bool(position and closed and closed['close'] <= position['stop_price']
                             and decision_at > (position.get('entry_candle_at') or ''))
             if stop_hit:
                 action, reason = 'sell', 'closed_candle_stop_loss'
             elif action == 'buy' and not item['entry_enabled']:
-                action, reason = 'hold', 'new_entries_paused'
+                action, reason = 'hold', ('news_resume_required' if item.get('news_resume_required') else 'new_entries_paused')
             decision = {'id': store.identifier('decision'), 'created_at': store.now(),
                 'candle_at': (closed or {}).get('date'), 'decision_at': decision_at,
                 'feature_available_at': (predicted or {}).get('feature_available_at'),
                 'model_id': item['candidate_id'], 'raw_action': raw, 'action': action,
-                'prediction': (predicted or {}).get('prediction'), 'reason': reason, 'execution': 'no_order'}
-            item['last_decision_at'] = decision_at
-            if action in {'buy', 'sell'}:
-                decision['execution'] = fill(item, action, market, reason, decision['id'])
-            item['decisions'].append(decision)
+                'prediction': (predicted or {}).get('prediction'), 'reason': reason,
+                'error_detail': failure_detail,
+                'news': (predicted or {}).get('news'), 'valid': not bool(failure),
+                'execution': 'blocked_input' if failure and not stop_hit else 'no_order'}
+            consumed = not failure or stop_hit
+            decision['consumed'] = consumed
+            if consumed:
+                item['last_decision_at'] = decision_at
+                item.pop('last_blocked_key', None)
+                if action in {'buy', 'sell'}:
+                    decision['execution'] = fill(item, action, market, reason, decision['id'])
+                item['decisions'].append(decision)
+            else:
+                blocked_key = decision_at + '|' + str(failure)
+                if item.get('last_blocked_key') != blocked_key:
+                    item['decisions'].append(decision)
+                    item['last_blocked_key'] = blocked_key
         status(item)
         store.save(conn, 'instances', item)
         return item
@@ -288,7 +347,9 @@ def action(identifier, action_name, mode, token):
         elif action_name == 'resume':
             if item['stop_requested']:
                 raise ValueError('Instance is waiting to stop; it cannot resume new entries')
-            item.update(user_paused=False, error=None)
+            item.update(user_paused=False, error=None, error_detail=None, news_resume_required=False, news_blocked=False)
+            if item['config'].get('news'):
+                item.update(news=predicted.get('news'), news_has_run=True)
         elif action_name == 'close_position':
             if item['position']:
                 fill(item, 'sell', market, 'operator_close_position')
@@ -331,14 +392,21 @@ def run_training():
                     store.finish(job['id'], error='Task cancelled, application stopped, or 30-minute training deadline exceeded')
                     return True
                 _stop.wait(.25)
-            if process.returncode != 0 or not (directory / 'candidate.json').is_file():
+            comparison = None
+            if (directory / 'comparison.json').is_file():
+                comparison = json.loads((directory / 'comparison.json').read_text(encoding='utf-8'))
+            if process.returncode != 0 or not any((directory / name).is_file() for name in ('candidate.json', 'completion.json')):
                 error = 'Training process failed; inspect the task log'
                 if (directory / 'error.json').is_file():
                     error = json.loads((directory / 'error.json').read_text(encoding='utf-8'))['error']
-                store.finish(job['id'], error=error)
+                store.finish(job['id'], error=error, comparison=comparison)
             else:
-                candidate = json.loads((directory / 'candidate.json').read_text(encoding='utf-8'))
-                store.finish(job['id'], candidate=candidate)
+                if (directory / 'completion.json').is_file():
+                    complete = json.loads((directory / 'completion.json').read_text(encoding='utf-8'))
+                    store.finish(job['id'], candidates=complete['candidates'], comparison=complete['comparison'])
+                else:
+                    candidate = json.loads((directory / 'candidate.json').read_text(encoding='utf-8'))
+                    store.finish(job['id'], candidate=candidate)
     except Exception as exc:
         if process and process.poll() is None:
             terminate_owned(process)
@@ -427,13 +495,29 @@ def paper_loop():
             _stop.wait(30)
 
 
+def news_loop():
+    """Capture availability at actual receipt time independently of model inference."""
+    with worker_lock('news') as acquired:
+        if not acquired:
+            return
+        while not _stop.is_set():
+            try:
+                from .terminal_news import current_snapshot
+                current_snapshot(refresh=True)
+            except Exception:
+                # The news adapter persists availability/error; do not invent zero events.
+                pass
+            _stop.wait(60)
+
+
 def start():
     global _threads
     if any(thread.is_alive() for thread in _threads):
         return
     _stop.clear()
     _threads = [threading.Thread(target=target, daemon=True, name=name)
-                for target, name in ((training_loop, 'terminal-training'), (paper_loop, 'terminal-paper'))]
+                for target, name in ((training_loop, 'terminal-training'), (paper_loop, 'terminal-paper'),
+                                     (news_loop, 'terminal-news'))]
     for thread in _threads:
         thread.start()
 
