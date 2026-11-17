@@ -1,0 +1,2325 @@
+{
+  "schema": "strategy-v2-v1",
+  "generated_at": "2026-11-17T04:42:43.355247+00:00",
+  "status": "partial",
+  "news": {
+    "status": "partial",
+    "source_sha256": "82ef851caf923338a90be126f4fba05550eaa3555e25e3c3aa8bd2724b61ca85",
+    "windows": [
+      {
+        "start": "2025-01-01",
+        "end": "2025-01-15",
+        "status": "complete",
+        "rows": [
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-ce4b443918664679a8eb26082efe0c16",
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-ce4b443918664679a8eb26082efe0c16",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-aa68d9549b95460b8af63118997a8eda",
+            "metrics": {
+              "net_return": -0.003246127058670556,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 8,
+              "turnover": 1.5983522251664959,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -6.622644658323636,
+              "sortino": -8.452804222592487,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-aa68d9549b95460b8af63118997a8eda",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-15e10ad7de084c32a584d6b92b8168a5",
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-15e10ad7de084c32a584d6b92b8168a5",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-b501d7e98eee402283f5b8dd41edb6cd",
+            "metrics": {
+              "net_return": -0.003246127058670556,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 8,
+              "turnover": 1.5983522251664959,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -6.622644658323636,
+              "sortino": -8.452804222592487,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-b501d7e98eee402283f5b8dd41edb6cd",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-2739f33ec1f44000b4a179aeac7fdc82",
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "880a8242df5090e458a80ea00e66a5b6bd3050236775be23be5567203104bc5f",
+            "source_verified": true,
+            "candidate_id": "model-2739f33ec1f44000b4a179aeac7fdc82",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-3b108a6159b4487d8683fc3cbda1de38",
+            "metrics": {
+              "net_return": -0.003246127058670556,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 8,
+              "turnover": 1.5983522251664959,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -6.622644658323636,
+              "sortino": -8.452804222592487,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "6ef9328b5ce48101d393227a4131dae14a3cd7c6c6f5a37038d9286e94724759",
+            "predictions_sha256": "56cfaea7c78aef66b99047cab6dfcbdcc61a34a8001ea0769e68b4ef5c9a9292",
+            "source_verified": true,
+            "candidate_id": "model-3b108a6159b4487d8683fc3cbda1de38",
+            "metrics": {
+              "net_return": -0.004411129293578231,
+              "max_drawdown": 0.006580205250136806,
+              "trades": 6,
+              "turnover": 1.1967856563627846,
+              "win_rate": 0.16666666666666666
+            },
+            "risk": {
+              "sharpe": -8.885177951148618,
+              "sortino": -11.251681225792852,
+              "observations": 120,
+              "annualization": 8760
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-01-15",
+        "end": "2025-01-29",
+        "status": "complete",
+        "rows": [
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-45bec8392a64499b91e243d4bfb0fcd8",
+            "metrics": {
+              "net_return": -0.005211705862327443,
+              "max_drawdown": 0.009529091051621807,
+              "trades": 9,
+              "turnover": 1.796584879016689,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -6.875433268280629,
+              "sortino": -9.618529907376862,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-45bec8392a64499b91e243d4bfb0fcd8",
+            "metrics": {
+              "net_return": -0.005648242941654447,
+              "max_drawdown": 0.009961898353368248,
+              "trades": 9,
+              "turnover": 1.7961479049633087,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -7.470980632974526,
+              "sortino": -10.436856199529993,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-ea8176b535e14bbdbce7dcb17b4067c0",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-ea8176b535e14bbdbce7dcb17b4067c0",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-4e7a943d7f824af8bec3db980603c965",
+            "metrics": {
+              "net_return": -0.005211705862327443,
+              "max_drawdown": 0.009529091051621807,
+              "trades": 9,
+              "turnover": 1.796584879016689,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -6.875433268280629,
+              "sortino": -9.618529907376862,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-4e7a943d7f824af8bec3db980603c965",
+            "metrics": {
+              "net_return": -0.005648242941654447,
+              "max_drawdown": 0.009961898353368248,
+              "trades": 9,
+              "turnover": 1.7961479049633087,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -7.470980632974526,
+              "sortino": -10.436856199529993,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-14f7a1bef66243bb9f86b524ef3597a6",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-14f7a1bef66243bb9f86b524ef3597a6",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-e232011364fb488c90aaef2bc235ba7f",
+            "metrics": {
+              "net_return": -0.005211705862327443,
+              "max_drawdown": 0.009529091051621807,
+              "trades": 9,
+              "turnover": 1.796584879016689,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -6.875433268280629,
+              "sortino": -9.618529907376862,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "f1b203db310eee6301a9e093ab66f2d2b4249821ad25e76c69860e290bf449a9",
+            "source_verified": true,
+            "candidate_id": "model-e232011364fb488c90aaef2bc235ba7f",
+            "metrics": {
+              "net_return": -0.005648242941654447,
+              "max_drawdown": 0.009961898353368248,
+              "trades": 9,
+              "turnover": 1.7961479049633087,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -7.470980632974526,
+              "sortino": -10.436856199529993,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-0833ecc59be845bb835a50682c8e539a",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "243c0aef09d563ba5bd198236f1e3d54312bba33d218a49772ab8f4069eb403a",
+            "predictions_sha256": "68144cd8675f610becf25ffdf2166cd06b902b3d4d22fea0070b33c575f875e0",
+            "source_verified": true,
+            "candidate_id": "model-0833ecc59be845bb835a50682c8e539a",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-04-01",
+        "end": "2025-04-15",
+        "status": "complete",
+        "rows": [
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-5ba2326488d1494a9b26f07894ed3139",
+            "metrics": {
+              "net_return": 9.286992253287885e-05,
+              "max_drawdown": 0.0039459695326582445,
+              "trades": 8,
+              "turnover": 1.6016945644870197,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 0.21496891292069825,
+              "sortino": 0.33583993585585803,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-5ba2326488d1494a9b26f07894ed3139",
+            "metrics": {
+              "net_return": -0.0006249517748652123,
+              "max_drawdown": 0.004494423462553354,
+              "trades": 7,
+              "turnover": 1.4007758240491837,
+              "win_rate": 0.42857142857142855
+            },
+            "risk": {
+              "sharpe": -1.5911718999291202,
+              "sortino": -2.1583647193814866,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-f087e4298b224599a82a68e5b0eeb87b",
+            "metrics": {
+              "net_return": 0.0004318574037891487,
+              "max_drawdown": 0.0033602176590700195,
+              "trades": 7,
+              "turnover": 1.4018336910948839,
+              "win_rate": 0.7142857142857143
+            },
+            "risk": {
+              "sharpe": 1.2521161635545894,
+              "sortino": 1.7093046163977843,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-f087e4298b224599a82a68e5b0eeb87b",
+            "metrics": {
+              "net_return": 0.003975547651547284,
+              "max_drawdown": 0.0036035560449881876,
+              "trades": 4,
+              "turnover": 0.8047803279795267,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 9.407626911539868,
+              "sortino": 16.29982161781367,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-dd261aeb53e5487f96260e10a55f1635",
+            "metrics": {
+              "net_return": 9.286992253287885e-05,
+              "max_drawdown": 0.0039459695326582445,
+              "trades": 8,
+              "turnover": 1.6016945644870197,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 0.21496891292069825,
+              "sortino": 0.33583993585585803,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-dd261aeb53e5487f96260e10a55f1635",
+            "metrics": {
+              "net_return": -0.0006249517748652123,
+              "max_drawdown": 0.004494423462553354,
+              "trades": 7,
+              "turnover": 1.4007758240491837,
+              "win_rate": 0.42857142857142855
+            },
+            "risk": {
+              "sharpe": -1.5911718999291202,
+              "sortino": -2.1583647193814866,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-d7981c6a52aa4795bd7fe81d2dd8701c",
+            "metrics": {
+              "net_return": 0.0004318574037891487,
+              "max_drawdown": 0.0033602176590700195,
+              "trades": 7,
+              "turnover": 1.4018336910948839,
+              "win_rate": 0.7142857142857143
+            },
+            "risk": {
+              "sharpe": 1.2521161635545894,
+              "sortino": 1.7093046163977843,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-d7981c6a52aa4795bd7fe81d2dd8701c",
+            "metrics": {
+              "net_return": 0.003975547651547284,
+              "max_drawdown": 0.0036035560449881876,
+              "trades": 4,
+              "turnover": 0.8047803279795267,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 9.407626911539868,
+              "sortino": 16.29982161781367,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-cafeaa68d6a040e8bf461df70e4a068a",
+            "metrics": {
+              "net_return": 9.286992253287885e-05,
+              "max_drawdown": 0.0039459695326582445,
+              "trades": 8,
+              "turnover": 1.6016945644870197,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 0.21496891292069825,
+              "sortino": 0.33583993585585803,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "eb8a40db25417a736a9e74b7340d69b403efd256f6a94bbc0b8277a0152d9f5e",
+            "source_verified": true,
+            "candidate_id": "model-cafeaa68d6a040e8bf461df70e4a068a",
+            "metrics": {
+              "net_return": -0.0006249517748652123,
+              "max_drawdown": 0.004494423462553354,
+              "trades": 7,
+              "turnover": 1.4007758240491837,
+              "win_rate": 0.42857142857142855
+            },
+            "risk": {
+              "sharpe": -1.5911718999291202,
+              "sortino": -2.1583647193814866,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-fbfbfc951767487bab0b7c25f17d0834",
+            "metrics": {
+              "net_return": 0.0004318574037891487,
+              "max_drawdown": 0.0033602176590700195,
+              "trades": 7,
+              "turnover": 1.4018336910948839,
+              "win_rate": 0.7142857142857143
+            },
+            "risk": {
+              "sharpe": 1.2521161635545894,
+              "sortino": 1.7093046163977843,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "d19146bd84eed1056acc75c34907dfe5a86839676cda13e8c0d2c4305d7dfeb7",
+            "predictions_sha256": "0bf0ae84f55153488cc98006aa340011eda4fe5263d5f1332b9b951fcf4b7c46",
+            "source_verified": true,
+            "candidate_id": "model-fbfbfc951767487bab0b7c25f17d0834",
+            "metrics": {
+              "net_return": 0.003975547651547284,
+              "max_drawdown": 0.0036035560449881876,
+              "trades": 4,
+              "turnover": 0.8047803279795267,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 9.407626911539868,
+              "sortino": 16.29982161781367,
+              "observations": 120,
+              "annualization": 8760
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-06-01",
+        "end": "2025-06-15",
+        "status": "failed",
+        "error": "ValueError: News batch 20250614180000 unavailable or invalid; incomplete coverage cannot be filled with zeros: HTTPError",
+        "rows": []
+      }
+    ],
+    "failures": [
+      {
+        "window": 4,
+        "error": "ValueError: News batch 20250614180000 unavailable or invalid; incomplete coverage cannot be filled with zeros: HTTPError"
+      }
+    ]
+  },
+  "ppo": {
+    "status": "complete",
+    "source_sha256": "80f9e8e71f20d98db4c2fe96dd2d23de88f01f0c0fba6d5e820dd2caacebb03a",
+    "windows": [
+      {
+        "start": "2025-01-01",
+        "end": "2025-01-15",
+        "rows": [
+          {
+            "seed": 7,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.5966386554621849,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": 0.0034490236181601297,
+              "max_drawdown": 0.004342379125579332,
+              "trades": 15,
+              "turnover": 3.0064554790972577,
+              "win_rate": 0.4
+            }
+          },
+          {
+            "seed": 7,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.2689075630252101,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.00211206807656239,
+              "max_drawdown": 0.00211206807656239,
+              "trades": 3,
+              "turnover": 0.5984864183417794,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7310924369747899,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.003869797719204926,
+              "max_drawdown": 0.006100869478648185,
+              "trades": 11,
+              "turnover": 2.1983285308116067,
+              "win_rate": 0.18181818181818182
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.46218487394957986,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.002833340260070538,
+              "max_drawdown": 0.004064980912568905,
+              "trades": 4,
+              "turnover": 0.7979646243642939,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.2773109243697479,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.0005475944584881764,
+              "max_drawdown": 0.003534693340001338,
+              "trades": 5,
+              "turnover": 1.0004528583999117,
+              "win_rate": 0.2
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7563025210084033,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.003180734537772345,
+              "max_drawdown": 0.0067230614926502286,
+              "trades": 11,
+              "turnover": 2.1990182837459735,
+              "win_rate": 0.18181818181818182
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.6722689075630253,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": 0.004169464919470123,
+              "max_drawdown": 0.0020094795405296573,
+              "trades": 2,
+              "turnover": 0.40457403895842853,
+              "win_rate": 1.0
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.4369747899159664,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.0008213382512076706,
+              "max_drawdown": 0.0030845317698111607,
+              "trades": 4,
+              "turnover": 0.8016229612124199,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.5714285714285714,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": 0.001523482822375355,
+              "max_drawdown": 0.0040048409960140585,
+              "trades": 13,
+              "turnover": 2.6041276104328075,
+              "win_rate": 0.38461538461538464
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.16806722689075632,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.0039505071530121505,
+              "max_drawdown": 0.0033416873090261756,
+              "trades": 7,
+              "turnover": 1.405355863016028,
+              "win_rate": 0.42857142857142855
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-01-15",
+        "end": "2025-01-29",
+        "rows": [
+          {
+            "seed": 7,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.5294117647058824,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.0023607678063646276,
+              "max_drawdown": 0.0023607678063646276,
+              "trades": 3,
+              "turnover": 0.5982374696632985,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seed": 7,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.6554621848739496,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.0037869178843055185,
+              "max_drawdown": 0.005912551056140192,
+              "trades": 5,
+              "turnover": 0.9972102924081024,
+              "win_rate": 0.2
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8823529411764706,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.0026348904612839563,
+              "max_drawdown": 0.0038546512499340047,
+              "trades": 4,
+              "turnover": 0.7981632728115277,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.18487394957983194,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.002703871912785649,
+              "max_drawdown": 0.004039872790559396,
+              "trades": 4,
+              "turnover": 0.7980942223095238,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.6302521008403361,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.0004038804726429479,
+              "max_drawdown": 0.002046136391059439,
+              "trades": 3,
+              "turnover": 0.6001963158432002,
+              "win_rate": 0.3333333333333333
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7310924369747899,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.00045016975087275313,
+              "max_drawdown": 0.0007883743420659117,
+              "trades": 1,
+              "turnover": 0.1997495798289563,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8067226890756303,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": 0.0016199307398712115,
+              "max_drawdown": 0.0037620298197545976,
+              "trades": 4,
+              "turnover": 0.8024223530929643,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8991596638655462,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.0028634593119941654,
+              "max_drawdown": 0.003187147742024332,
+              "trades": 6,
+              "turnover": 1.1983348755635694,
+              "win_rate": 0.16666666666666666
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7563025210084033,
+            "evaluated_decisions": 119,
+            "reused_previous": true,
+            "metrics": {
+              "net_return": -0.002082951608366468,
+              "max_drawdown": 0.0071026391127489985,
+              "trades": 6,
+              "turnover": 1.1991161645561899,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.2184873949579832,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.0037294603204022225,
+              "max_drawdown": 0.006810433443955599,
+              "trades": 3,
+              "turnover": 0.5968674070866846,
+              "win_rate": 0.3333333333333333
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-04-01",
+        "end": "2025-04-15",
+        "rows": [
+          {
+            "seed": 7,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.6050420168067226,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.007714314223096319,
+              "max_drawdown": 0.007722537699649923,
+              "trades": 13,
+              "turnover": 2.5948805663432473,
+              "win_rate": 0.23076923076923078
+            }
+          },
+          {
+            "seed": 7,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.1092436974789916,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.0008791944916243244,
+              "max_drawdown": 0.001595163190364901,
+              "trades": 3,
+              "turnover": 0.5997205260344101,
+              "win_rate": 0.3333333333333333
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8067226890756303,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.0059362418678181594,
+              "max_drawdown": 0.0075572633141995915,
+              "trades": 9,
+              "turnover": 1.795859617749932,
+              "win_rate": 0.1111111111111111
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7310924369747899,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.00045553450492041847,
+              "max_drawdown": 0.002741412148157596,
+              "trades": 14,
+              "turnover": 2.802346812307387,
+              "win_rate": 0.5714285714285714
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.5714285714285714,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": 0.0041236015488612665,
+              "max_drawdown": 0.0015220459251787943,
+              "trades": 8,
+              "turnover": 1.6057293308797407,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.12605042016806722,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.00271974130788033,
+              "max_drawdown": 0.0030073588458900957,
+              "trades": 7,
+              "turnover": 1.4041238651730532,
+              "win_rate": 0.42857142857142855
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.2605042016806723,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.004058364731916453,
+              "max_drawdown": 0.0054751806305697315,
+              "trades": 9,
+              "turnover": 1.7977393746427264,
+              "win_rate": 0.3333333333333333
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8571428571428571,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.0015360864001405794,
+              "max_drawdown": 0.002601820259106158,
+              "trades": 2,
+              "turnover": 0.4019380244245651,
+              "win_rate": 1.0
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8403361344537815,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": 0.005963145548191662,
+              "max_drawdown": 0.0011257102813599928,
+              "trades": 6,
+              "turnover": 1.2071703158640557,
+              "win_rate": 0.8333333333333334
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.42016806722689076,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.006730615730284106,
+              "max_drawdown": 0.0073403344876009635,
+              "trades": 16,
+              "turnover": 3.1964658501198357,
+              "win_rate": 0.3125
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-07-01",
+        "end": "2025-07-15",
+        "rows": [
+          {
+            "seed": 7,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.865546218487395,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.0006573066060414634,
+              "max_drawdown": 0.001343474263377109,
+              "trades": 4,
+              "turnover": 0.8001428362301888,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 7,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.6638655462184874,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.002882345884084314,
+              "max_drawdown": 0.0023396544851350676,
+              "trades": 4,
+              "turnover": 0.8036860319160002,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7899159663865546,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.0011545518529539889,
+              "max_drawdown": 0.0025763349498780785,
+              "trades": 11,
+              "turnover": 2.2010464946416874,
+              "win_rate": 0.5454545454545454
+            }
+          },
+          {
+            "seed": 42,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7563025210084033,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": -0.0016527817824231184,
+              "max_drawdown": 0.001798694679209012,
+              "trades": 9,
+              "turnover": 1.80014736558316,
+              "win_rate": 0.1111111111111111
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.23529411764705882,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": 0.002683399624949123,
+              "max_drawdown": 0.0014362612516436446,
+              "trades": 1,
+              "turnover": 0.2028862859108599,
+              "win_rate": 1.0
+            }
+          },
+          {
+            "seed": 99,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8403361344537815,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.006278647862650866,
+              "max_drawdown": 0.0025484394102706087,
+              "trades": 7,
+              "turnover": 1.407686334196848,
+              "win_rate": 0.2857142857142857
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.8823529411764706,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": 0.007350954834546952,
+              "max_drawdown": 0.00239751786072806,
+              "trades": 3,
+              "turnover": 0.6079589137482951,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 17,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.7394957983193278,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.008083842114416484,
+              "max_drawdown": 0.0018462779297012677,
+              "trades": 5,
+              "turnover": 1.0090929350494662,
+              "win_rate": 0.4
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_only",
+            "status": "succeeded",
+            "position_conflict_rate": 0.31932773109243695,
+            "evaluated_decisions": 119,
+            "reused_previous": false,
+            "metrics": {
+              "net_return": -0.00026960794175556746,
+              "max_drawdown": 0.0005056510638298262,
+              "trades": 2,
+              "turnover": 0.4001305225808253,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seed": 52,
+            "variant": "price_position",
+            "status": "succeeded",
+            "position_conflict_rate": 0.9327731092436975,
+            "evaluated_decisions": 119,
+            "metrics": {
+              "net_return": 0.0006051678164424867,
+              "max_drawdown": 0.00024394152251172585,
+              "trades": 1,
+              "turnover": 0.20080597379023285,
+              "win_rate": 1.0
+            }
+          }
+        ]
+      }
+    ],
+    "failures": []
+  },
+  "news_supplement": {
+    "status": "complete",
+    "source_sha256": "a581e9202c891af24d847d59bcabd9b537b0f9e6653db1c5f389cbcebe30ae56",
+    "windows": [
+      {
+        "start": "2025-05-31",
+        "end": "2025-06-14",
+        "status": "complete",
+        "rows": [
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-ccd2a36f2afc4d2a94eb68f9da2f3830",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-ccd2a36f2afc4d2a94eb68f9da2f3830",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-897a5a9e00f44a46a5a172b83d34eabf",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 7,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-897a5a9e00f44a46a5a172b83d34eabf",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-09e6d3ccae4748ac81997e5aeb51595a",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-09e6d3ccae4748ac81997e5aeb51595a",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-64a825a3e2ea47b891754fbf17d0392f",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 42,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-64a825a3e2ea47b891754fbf17d0392f",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-cee2cec2dee24d26964193038ba34c93",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_only",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "7194761648bd07d3f3585a5badb8241da0f0e9991923af9234454161b596c1c1",
+            "source_verified": true,
+            "candidate_id": "model-cee2cec2dee24d26964193038ba34c93",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "baseline",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-50f2c7a1c669473eb580aad71c2f3fc5",
+            "metrics": {
+              "net_return": 0.0044517288077641215,
+              "max_drawdown": 0.00434781487643876,
+              "trades": 6,
+              "turnover": 1.2056573861939581,
+              "win_rate": 0.6666666666666666
+            },
+            "risk": {
+              "sharpe": 8.756005120055715,
+              "sortino": 14.549163871111276,
+              "observations": 120,
+              "annualization": 8760
+            }
+          },
+          {
+            "seed": 99,
+            "feature": "price_news",
+            "policy": "cost_buffer",
+            "status": "succeeded",
+            "market_sha256": "707e5c027e71d8cc716ec57b0df58884014ce6312589961f0892c0162eca15fc",
+            "predictions_sha256": "dfea2da47494dba6cacc95646fa3496f4ce25f7dd2bccd4635ab99bc07b4ce1a",
+            "source_verified": true,
+            "candidate_id": "model-50f2c7a1c669473eb580aad71c2f3fc5",
+            "metrics": {
+              "net_return": 0.004333583938918029,
+              "max_drawdown": 0.0011179884428134113,
+              "trades": 2,
+              "turnover": 0.4047383222611792,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 11.176109499566282,
+              "sortino": 22.244032126993122,
+              "observations": 120,
+              "annualization": 8760
+            }
+          }
+        ]
+      }
+    ],
+    "failures": [],
+    "label": "缺失后补充、非预注册"
+  },
+  "news_diagnosis": {
+    "checked_at": "2026-11-17T04:33:53.504514+00:00",
+    "method": "HEAD",
+    "http_status": 404,
+    "batch": "20250614180000",
+    "source_sha256": "495edbd5b2755c29d03ffb9970d9a60491e315fee712e34e3a838297a2b19889"
+  },
+  "news_innovation": {
+    "status": "complete",
+    "source_sha256": "d26e84cb13fea665cb02a313a25da3709de10246fbbaf9dcdae484993a66325f",
+    "windows": [
+      {
+        "start": "2025-01-01",
+        "end": "2025-01-15T00:00:00+00:00",
+        "status": "complete",
+        "supplemental_after_missing_archive": false,
+        "rows": [
+          {
+            "seed": 7,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "0a79990c0d3c6a24d1acd2278567382dab0de26bea90ead7f6d332c6fda547f8",
+            "outcome_sha256": "bf06246190256a20268177fce0d27adbdc7146c65ab8a9ae1a143e47f52ce229",
+            "metrics": {
+              "net_return": -0.0027845390877307974,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 7,
+              "turnover": 1.3986140749872567,
+              "win_rate": 0.5714285714285714
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "75c0043cff257d219c754f11c04305cb768007cf660c12700c14343bc78a8245",
+            "outcome_sha256": "f194a7d4aa67bfb15b44c9d05ad099d6ffbcc666ad73fd2b91e5bc6aba6fa5ff",
+            "metrics": {
+              "net_return": -0.003327627970438507,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 7,
+              "turnover": 1.3980704424720336,
+              "win_rate": 0.42857142857142855
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "c946a7bb38087b6aa1a7025fc2514ffcc74a4d17e9e62e5d893da74c78bb3769",
+            "outcome_sha256": "6bfee9dde02b32c377294a30d2b434fcd2dfae46082be08cb103c36c0f3e7494",
+            "metrics": {
+              "net_return": -0.0029811212919439445,
+              "max_drawdown": 0.0056975651239056235,
+              "trades": 8,
+              "turnover": 1.59861749620426,
+              "win_rate": 0.375
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "548c3b68ef8fbba43739e006146dee4670306bcf139182e2e0012ca42a36b6ca",
+            "outcome_sha256": "bf06246190256a20268177fce0d27adbdc7146c65ab8a9ae1a143e47f52ce229",
+            "metrics": {
+              "net_return": -0.0027845390877307974,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 7,
+              "turnover": 1.3986140749872567,
+              "win_rate": 0.5714285714285714
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "7c9282e2a43fa3d8ec45bbb981068f34901dcab0bad12c5e9358eabe7980910a",
+            "outcome_sha256": "f194a7d4aa67bfb15b44c9d05ad099d6ffbcc666ad73fd2b91e5bc6aba6fa5ff",
+            "metrics": {
+              "net_return": -0.003327627970438507,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 7,
+              "turnover": 1.3980704424720336,
+              "win_rate": 0.42857142857142855
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "9161cc95d4edbe442071f9dc550c165e70ce1e7f8cd3acc5bbe8433eb06a535f",
+            "outcome_sha256": "6bfee9dde02b32c377294a30d2b434fcd2dfae46082be08cb103c36c0f3e7494",
+            "metrics": {
+              "net_return": -0.0029811212919439445,
+              "max_drawdown": 0.0056975651239056235,
+              "trades": 8,
+              "turnover": 1.59861749620426,
+              "win_rate": 0.375
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "b34ef1bd1b35668b782e0d0e5d43d4ae60e9b059cd2d6f1bf945cdbb5a7b67d1",
+            "outcome_sha256": "bf06246190256a20268177fce0d27adbdc7146c65ab8a9ae1a143e47f52ce229",
+            "metrics": {
+              "net_return": -0.0027845390877307974,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 7,
+              "turnover": 1.3986140749872567,
+              "win_rate": 0.5714285714285714
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "3e0dee259da4d397fdb6d871a686eade9fb1b79954fd3cfe4e5c511be9b0fd8d",
+            "outcome_sha256": "f194a7d4aa67bfb15b44c9d05ad099d6ffbcc666ad73fd2b91e5bc6aba6fa5ff",
+            "metrics": {
+              "net_return": -0.003327627970438507,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 7,
+              "turnover": 1.3980704424720336,
+              "win_rate": 0.42857142857142855
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "76454bb3369e6ce53e3c8b9f1e6760b2faddc244119eb878e751d18d0ce43037",
+            "outcome_sha256": "6bfee9dde02b32c377294a30d2b434fcd2dfae46082be08cb103c36c0f3e7494",
+            "metrics": {
+              "net_return": -0.0029811212919439445,
+              "max_drawdown": 0.0056975651239056235,
+              "trades": 8,
+              "turnover": 1.59861749620426,
+              "win_rate": 0.375
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-01-15",
+        "end": "2025-01-29T00:00:00+00:00",
+        "status": "complete",
+        "supplemental_after_missing_archive": false,
+        "rows": [
+          {
+            "seed": 7,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "d0eba32c9476573bcd8996e5ac1b99ad941206ea415e79fe49cbea1872477b83",
+            "outcome_sha256": "0c5d3f192ed3614c8f7a1ad7d4b7578003ae8238ffd5f174334071a5abe10ec0",
+            "metrics": {
+              "net_return": -0.00799483702996806,
+              "max_drawdown": 0.010003486784914806,
+              "trades": 8,
+              "turnover": 1.5935987617317637,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "b485f4fee24dfe8f781b878e01844b0e7bdf9cf05a376985e4ff3d5802a68714",
+            "outcome_sha256": "26ed08c35b4272c683c8ea39acefe158613fa45d835af47cbe903526d8a3fd23",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "9f82f90abc3b41e67cdb6c206c700928cd70870737179338576ee1f5723e6854",
+            "outcome_sha256": "109338c6165ea47aaf36fcc5238b410adb191b068100fa7ac186274c09b56e69",
+            "metrics": {
+              "net_return": -0.0070820873465494705,
+              "max_drawdown": 0.008963668837121852,
+              "trades": 4,
+              "turnover": 0.7937116242777285,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "55669b18630fe2bfb2fc01fb4ba63349bf976b680d2364de4311aa4155174844",
+            "outcome_sha256": "0c5d3f192ed3614c8f7a1ad7d4b7578003ae8238ffd5f174334071a5abe10ec0",
+            "metrics": {
+              "net_return": -0.00799483702996806,
+              "max_drawdown": 0.010003486784914806,
+              "trades": 8,
+              "turnover": 1.5935987617317637,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "90ad87f9d99e2347e01fe93e5e7f2f05ea6175995d1698de4f4a44b19776d370",
+            "outcome_sha256": "26ed08c35b4272c683c8ea39acefe158613fa45d835af47cbe903526d8a3fd23",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "81db2b160cc3b8a44c3236deda85552de38c67d0d1b31b9467ae9b7af248064e",
+            "outcome_sha256": "109338c6165ea47aaf36fcc5238b410adb191b068100fa7ac186274c09b56e69",
+            "metrics": {
+              "net_return": -0.0070820873465494705,
+              "max_drawdown": 0.008963668837121852,
+              "trades": 4,
+              "turnover": 0.7937116242777285,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "110d2d10d6adc8383d64df97e7e30b994bc4b35dbe34158187c2e03a7e4acfc8",
+            "outcome_sha256": "0c5d3f192ed3614c8f7a1ad7d4b7578003ae8238ffd5f174334071a5abe10ec0",
+            "metrics": {
+              "net_return": -0.00799483702996806,
+              "max_drawdown": 0.010003486784914806,
+              "trades": 8,
+              "turnover": 1.5935987617317637,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "7862fcd01ff530dd8bccdf9fb5200b179a6d43695cdf0b6742ade1e7fca6acf0",
+            "outcome_sha256": "26ed08c35b4272c683c8ea39acefe158613fa45d835af47cbe903526d8a3fd23",
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "a5c480495adcaf4ae8a89eab1f183fde7cb3a5de99973f9a8b365b5685fede69",
+            "outcome_sha256": "109338c6165ea47aaf36fcc5238b410adb191b068100fa7ac186274c09b56e69",
+            "metrics": {
+              "net_return": -0.0070820873465494705,
+              "max_drawdown": 0.008963668837121852,
+              "trades": 4,
+              "turnover": 0.7937116242777285,
+              "win_rate": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-04-01",
+        "end": "2025-04-15T00:00:00+00:00",
+        "status": "complete",
+        "supplemental_after_missing_archive": false,
+        "rows": [
+          {
+            "seed": 7,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "323db0bc6e800ee53cff1ebd6a336339dd32f795924cbafeff951cee41bab818",
+            "outcome_sha256": "296c0375a46e702edf6c3d912fee3a869b1c65977a22c2e6dd6283af3df2aa89",
+            "metrics": {
+              "net_return": 0.0034647749732490407,
+              "max_drawdown": 0.0045329407657589416,
+              "trades": 9,
+              "turnover": 1.805270045018267,
+              "win_rate": 0.5555555555555556
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "b9efcf20c12ae09f89464439def6e2543f5bd131fa4c3e09b1de126cee77129a",
+            "outcome_sha256": "646a88aebdf21ba3abaacf7a3c70456095d9f4e5161918423bc535fd1fb3041e",
+            "metrics": {
+              "net_return": 0.003992136053153628,
+              "max_drawdown": 0.0031340023930260807,
+              "trades": 4,
+              "turnover": 0.8047969329861396,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "788f5bd783fbc9005e057c02332d8f8c8d71fab036076c79d1a0649cb01653b0",
+            "outcome_sha256": "96b6d7fafd6905cc733e46761a8b109d6f4268ed2104b4ce72defb782f99ddbf",
+            "metrics": {
+              "net_return": 0.002495368952872168,
+              "max_drawdown": 0.003770963490090984,
+              "trades": 6,
+              "turnover": 1.203699068020893,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "d4fbf8e39127d50d591f190a8a444ec340039077565c53e5b2e1e2974e829d23",
+            "outcome_sha256": "296c0375a46e702edf6c3d912fee3a869b1c65977a22c2e6dd6283af3df2aa89",
+            "metrics": {
+              "net_return": 0.0034647749732490407,
+              "max_drawdown": 0.0045329407657589416,
+              "trades": 9,
+              "turnover": 1.805270045018267,
+              "win_rate": 0.5555555555555556
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "74ed34e435dbff6c64443de91faf98961eea42616d143401d88b63783f436adf",
+            "outcome_sha256": "646a88aebdf21ba3abaacf7a3c70456095d9f4e5161918423bc535fd1fb3041e",
+            "metrics": {
+              "net_return": 0.003992136053153628,
+              "max_drawdown": 0.0031340023930260807,
+              "trades": 4,
+              "turnover": 0.8047969329861396,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "a44dfa2ea82c87a67ded3d411efa4ed0fc67d0293974a81a7b9b1caa381956b2",
+            "outcome_sha256": "96b6d7fafd6905cc733e46761a8b109d6f4268ed2104b4ce72defb782f99ddbf",
+            "metrics": {
+              "net_return": 0.002495368952872168,
+              "max_drawdown": 0.003770963490090984,
+              "trades": 6,
+              "turnover": 1.203699068020893,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "19a410880688813248cb94b3dce17960f3c398700125f0b981e7dedabd7c9eda",
+            "outcome_sha256": "296c0375a46e702edf6c3d912fee3a869b1c65977a22c2e6dd6283af3df2aa89",
+            "metrics": {
+              "net_return": 0.0034647749732490407,
+              "max_drawdown": 0.0045329407657589416,
+              "trades": 9,
+              "turnover": 1.805270045018267,
+              "win_rate": 0.5555555555555556
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "bad44a09a3cf2079f31e8f1c3d7d0b24d697da7bf6a4c5654d1fae6a03771f44",
+            "outcome_sha256": "646a88aebdf21ba3abaacf7a3c70456095d9f4e5161918423bc535fd1fb3041e",
+            "metrics": {
+              "net_return": 0.003992136053153628,
+              "max_drawdown": 0.0031340023930260807,
+              "trades": 4,
+              "turnover": 0.8047969329861396,
+              "win_rate": 0.5
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "4bd7267612a5fdb88373edab79177f015e52cdb766add0e794437912a1584e5b",
+            "outcome_sha256": "96b6d7fafd6905cc733e46761a8b109d6f4268ed2104b4ce72defb782f99ddbf",
+            "metrics": {
+              "net_return": 0.002495368952872168,
+              "max_drawdown": 0.003770963490090984,
+              "trades": 6,
+              "turnover": 1.203699068020893,
+              "win_rate": 0.6666666666666666
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-05-31",
+        "end": "2025-06-14T00:00:00+00:00",
+        "status": "complete",
+        "supplemental_after_missing_archive": true,
+        "rows": [
+          {
+            "seed": 7,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "560409bdb4e3b85dd66dafb79add754cac3f6445a959cab39f9380136e6f731f",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "80076ef64b14051fcdd98d16e3eeee65fdec7e49baf0f62270618bff55aa062a",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 7,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "f99dfbb34d99b9ce38484031d90d3d5e249697206258e05ba137969e4b11937c",
+            "outcome_sha256": "6e21da03c12794728a8a0c1bb3bcd4738636b2442384f5f904b66c5ee6fb765a",
+            "metrics": {
+              "net_return": 0.005868139732050581,
+              "max_drawdown": 0.0014641066294309724,
+              "trades": 3,
+              "turnover": 0.606474614346397,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "6818f174dc74efcd15f3f73bd0cd7928df790efeb6ff6fa5828939267e3cdc6b",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "0d646a37a7615175b455b3772048af910cfc73f402880ef2cc0974ed0adc11d1",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 42,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "c9fa3706ea03d3eb8764e50bc966106ff640cd19756f2fbbd19a3aaded785312",
+            "outcome_sha256": "6e21da03c12794728a8a0c1bb3bcd4738636b2442384f5f904b66c5ee6fb765a",
+            "metrics": {
+              "net_return": 0.005868139732050581,
+              "max_drawdown": 0.0014641066294309724,
+              "trades": 3,
+              "turnover": 0.606474614346397,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "price",
+            "status": "succeeded",
+            "model_sha256": "ca42d3cf7f4a788eb6bd1822bcd754fb0cc44d459dd7129b4d1f0c037f8acbab",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "raw_news",
+            "status": "succeeded",
+            "model_sha256": "7a69a5f928b70402f361bee4d234b1a7db880d491052b3e2dd22808a22ebc371",
+            "outcome_sha256": "f843499cf1d01125bd3ecaf53080f079140b801a3115cbb67de5348764408674",
+            "metrics": {
+              "net_return": 0.004391530624747064,
+              "max_drawdown": 0.00440762389674676,
+              "trades": 5,
+              "turnover": 1.0053969275522994,
+              "win_rate": 0.6
+            }
+          },
+          {
+            "seed": 99,
+            "arm": "news_innovation",
+            "status": "succeeded",
+            "model_sha256": "8e19893e1d9c4ed10648510e3e8478b0cf440decd45ed79b284c366711fc2b5f",
+            "outcome_sha256": "6e21da03c12794728a8a0c1bb3bcd4738636b2442384f5f904b66c5ee6fb765a",
+            "metrics": {
+              "net_return": 0.005868139732050581,
+              "max_drawdown": 0.0014641066294309724,
+              "trades": 3,
+              "turnover": 0.606474614346397,
+              "win_rate": 0.6666666666666666
+            }
+          }
+        ]
+      }
+    ],
+    "failures": []
+  }
+}

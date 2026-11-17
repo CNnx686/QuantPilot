@@ -146,6 +146,8 @@ cd QuantPilot
 
 「策略优化 · 冻结历史研究」展示本轮真实实验：训练内部验证选择新闻预测融合权重，以及三个 PPO 模型的动作多数投票。三个新闻窗口和三个 PPO 窗口的所有对照均保留。**目前没有证据表明这两种方案能稳定提高收益；它们仅为离线研究，尚未封装为可启动的模拟交易模型。** PPO 投票使用三倍单模型训练预算。[新闻实验与复查](docs/product/personal-quant-v1/news-blend-research.md) · [PPO 投票实验与复查](docs/product/personal-quant-v1/ppo-ensemble-research.md) · [研究协议](docs/product/personal-quant-v1/strategy-improvement-plan.md)。
 
+第二轮研究比较新闻预测费用缓冲门槛、新闻数量和来源相对过去 24 小时均值的变化因子，以及给 PPO 增加当前账户持仓状态。前端「查看第二轮策略研究」保留每行结果和数据缺口；[研究协议](docs/product/personal-quant-v1/strategy-v2-protocol.md)、[新闻门槛及缺失批次](docs/product/personal-quant-v1/news-v2-research.md)、[新闻变化因子](docs/product/personal-quant-v1/news-innovation-research.md)和 [PPO 持仓状态](docs/product/personal-quant-v1/ppo-v2-research.md)说明方法与结果。新闻变化因子作为补充研究，含缺失后追加窗口；PPO 按预先固定的四窗口、五种子对照。结果未显示稳定改善，也尚不能替代独立的费用压力与当前行情影子验证，未接入模拟账户。
+
 选择预测或 RL 策略，点击「多窗口 / 多种子研究」，填写两个互不重叠的 14–31 天窗口及 2–3 个不同种子。新闻关闭时仅运行价格模型，开启时每组同时运行价格和新闻两臂；最多 12 次训练。页面逐行保留结果、失败和错误，适合检查结果是否依赖某个种子或某段行情。**研究结果不会发布为可启动候选，也不会替换当前模拟账户**；要运行某个配置，请另行提交普通训练或新闻对照并手动选用。
 
 指标口径、操作细节与完整真实结果见[评估指标与稳健性研究](docs/product/personal-quant-v1/evaluation-robustness.md)。多种子结果共享各自窗口的行情，不是多份独立市场样本；确定性 LightGBM 在当前参数下也可能跨种子得到完全相同的结果。
