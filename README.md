@@ -4,7 +4,7 @@ QuantPilot 是一个面向课程项目和个人研究的本机量化平台。用
 
 **当前主要入口：启动后访问 [http://127.0.0.1:8765/terminal/](http://127.0.0.1:8765/terminal/)。** 核心流程不需要交易所账户、交易 API 密钥或 DeepSeek 密钥。新终端使用独立模拟账本，不向交易所发送订单。
 
-**同组成员下载：** [成员预览版源码包与 SHA256 校验文件](https://github.com/CNnx686/QuantPilot/releases/tag/team-preview-2026-11-17)。`team-preview-2026-11-17` 包含源码、文档和依赖锁；不包含虚拟环境、下载行情、数据库或已训练模型。私有仓库成员需取得访问权限后下载。
+**同组成员下载：** 推荐克隆本仓库 `main` 分支以获得最新评估功能。[成员预览版源码包与 SHA256 校验文件](https://github.com/CNnx686/QuantPilot/releases/tag/team-preview-2026-11-17)是较早的固定快照，不含后续评估扩展；其包含源码、文档和依赖锁，不含虚拟环境、下载行情、数据库或已训练模型。私有仓库成员需取得访问权限后下载。
 
 ![QuantPilot 新闻策略工作台](docs/product/personal-quant-v1/screenshots/news-current-running.png)
 
