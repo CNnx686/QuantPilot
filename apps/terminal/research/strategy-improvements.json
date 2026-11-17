@@ -1,0 +1,1203 @@
+{
+  "schema": "strategy-improvements-v1",
+  "generated_at": "2026-11-17T04:18:49.661626+00:00",
+  "status": "complete",
+  "limitations": [
+    "历史开发研究；2025 Q4 继续保留，结果不是最终盲测或盈利保证。",
+    "回测计入手续费，未完整模拟滑点、盘口深度与市场冲击；研究结果不自动发布候选。"
+  ],
+  "news": {
+    "status": "complete",
+    "warning": "新闻为每六小时一个 15 分钟批次的标题采样；融合权重仅在训练区间内选择。",
+    "source_hashes": {
+      "w1": "fca1cbfb737affd2c33778318eb2b6fe3ae8e149d0d36375f6d4aefd9b55bea7",
+      "w2": "220b0cd57266cfd6101f08b2af417a2276457dbcb4855fbd1d9a724b15169802",
+      "q2": "b70f2060e6cafedba0b436c79cd312a0f3662060e7f75dbe921d669127b1bf28"
+    },
+    "failures": [],
+    "windows": [
+      {
+        "name": "w1",
+        "source_sha256": "fca1cbfb737affd2c33778318eb2b6fe3ae8e149d0d36375f6d4aefd9b55bea7",
+        "period": {
+          "requested": {
+            "start": "2025-01-01T00:00:00+00:00",
+            "end": "2025-01-15T00:00:00+00:00"
+          },
+          "train": {
+            "start": "2025-01-01T00:00:00+00:00",
+            "end": "2025-01-10T00:00:00+00:00"
+          },
+          "evaluation": {
+            "start": "2025-01-10T00:00:00+00:00",
+            "end": "2025-01-15T00:00:00+00:00"
+          }
+        },
+        "config": {
+          "symbol": "ETH/USDT",
+          "timeframe": "1h",
+          "wallet": 10000.0,
+          "stake": 1000.0,
+          "fee": 0.001
+        },
+        "calibration": {
+          "selected_weight": 0.0,
+          "validation_rows": 48,
+          "training_cutoff": "2025-01-10T00:00:00+00:00",
+          "validation_start": "2025-01-07T18:00:00+00:00",
+          "weight_scores": [
+            {
+              "weight": 0.0,
+              "rmse": 0.01659649093771105
+            },
+            {
+              "weight": 0.25,
+              "rmse": 0.016856002377374314
+            },
+            {
+              "weight": 0.5,
+              "rmse": 0.017164772984143352
+            },
+            {
+              "weight": 1.0,
+              "rmse": 0.017919503194878242
+            }
+          ]
+        },
+        "arms": {
+          "price_only": {
+            "weight": 0.0,
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015157272238981901,
+              "rmse": 0.019003558470899812,
+              "direction_accuracy": 0.4473684210526316,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "full_news": {
+            "weight": 1.0,
+            "metrics": {
+              "net_return": -0.003246127058670556,
+              "max_drawdown": 0.0058987150660543275,
+              "trades": 8,
+              "turnover": 1.5983522251664959,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -6.622644658323636,
+              "sortino": -8.452804222592487,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015396585767302486,
+              "rmse": 0.01920529174093089,
+              "direction_accuracy": 0.43859649122807015,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "fixed_25_news": {
+            "weight": 0.25,
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015216758347345564,
+              "rmse": 0.019052676346922693,
+              "direction_accuracy": 0.4473684210526316,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "validation_selected": {
+            "weight": 0.0,
+            "metrics": {
+              "net_return": -0.001937823375038561,
+              "max_drawdown": 0.005355938280698025,
+              "trades": 8,
+              "turnover": 1.599661838463425,
+              "win_rate": 0.625
+            },
+            "risk": {
+              "sharpe": -4.229130508405273,
+              "sortino": -5.492229371754446,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015157272238981901,
+              "rmse": 0.019003558470899812,
+              "direction_accuracy": 0.4473684210526316,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          }
+        }
+      },
+      {
+        "name": "w2",
+        "source_sha256": "220b0cd57266cfd6101f08b2af417a2276457dbcb4855fbd1d9a724b15169802",
+        "period": {
+          "requested": {
+            "start": "2025-01-15T00:00:00+00:00",
+            "end": "2025-01-29T00:00:00+00:00"
+          },
+          "train": {
+            "start": "2025-01-15T00:00:00+00:00",
+            "end": "2025-01-24T00:00:00+00:00"
+          },
+          "evaluation": {
+            "start": "2025-01-24T00:00:00+00:00",
+            "end": "2025-01-29T00:00:00+00:00"
+          }
+        },
+        "config": {
+          "symbol": "ETH/USDT",
+          "timeframe": "1h",
+          "wallet": 10000.0,
+          "stake": 1000.0,
+          "fee": 0.001
+        },
+        "calibration": {
+          "selected_weight": 0.5,
+          "validation_rows": 48,
+          "training_cutoff": "2025-01-24T00:00:00+00:00",
+          "validation_start": "2025-01-21T18:00:00+00:00",
+          "weight_scores": [
+            {
+              "weight": 0.0,
+              "rmse": 0.017629005473488984
+            },
+            {
+              "weight": 0.25,
+              "rmse": 0.017131823218004383
+            },
+            {
+              "weight": 0.5,
+              "rmse": 0.016935477277219783
+            },
+            {
+              "weight": 1.0,
+              "rmse": 0.01747034376916054
+            }
+          ]
+        },
+        "arms": {
+          "price_only": {
+            "weight": 0.0,
+            "metrics": {
+              "net_return": -0.005211705862327443,
+              "max_drawdown": 0.009529091051621807,
+              "trades": 9,
+              "turnover": 1.796584879016689,
+              "win_rate": 0.3333333333333333
+            },
+            "risk": {
+              "sharpe": -6.875433268280629,
+              "sortino": -9.618529907376862,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015746747844894545,
+              "rmse": 0.020421784235357728,
+              "direction_accuracy": 0.4649122807017544,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "full_news": {
+            "weight": 1.0,
+            "metrics": {
+              "net_return": -0.006499582069186327,
+              "max_drawdown": 0.009379073736210386,
+              "trades": 2,
+              "turnover": 0.3938943122430567,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.056422539309684,
+              "sortino": -11.577209667572065,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.0196173588454601,
+              "rmse": 0.02557918113032594,
+              "direction_accuracy": 0.5350877192982456,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "fixed_25_news": {
+            "weight": 0.25,
+            "metrics": {
+              "net_return": -0.00710060471510332,
+              "max_drawdown": 0.009628446318099892,
+              "trades": 4,
+              "turnover": 0.7936930883732697,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -9.542896125729156,
+              "sortino": -12.228187423584362,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.01587720588192718,
+              "rmse": 0.021204498568051296,
+              "direction_accuracy": 0.5263157894736842,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "validation_selected": {
+            "weight": 0.5,
+            "metrics": {
+              "net_return": -0.007502231287203176,
+              "max_drawdown": 0.009631911879033561,
+              "trades": 4,
+              "turnover": 0.7932910597725691,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": -10.089571506426047,
+              "sortino": -12.89623895999033,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.016493322804016494,
+              "rmse": 0.02236139817263753,
+              "direction_accuracy": 0.5350877192982456,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          }
+        }
+      },
+      {
+        "name": "q2",
+        "source_sha256": "b70f2060e6cafedba0b436c79cd312a0f3662060e7f75dbe921d669127b1bf28",
+        "period": {
+          "requested": {
+            "start": "2025-04-01T00:00:00+00:00",
+            "end": "2025-04-15T00:00:00+00:00"
+          },
+          "train": {
+            "start": "2025-04-01T00:00:00+00:00",
+            "end": "2025-04-10T00:00:00+00:00"
+          },
+          "evaluation": {
+            "start": "2025-04-10T00:00:00+00:00",
+            "end": "2025-04-15T00:00:00+00:00"
+          }
+        },
+        "config": {
+          "symbol": "ETH/USDT",
+          "timeframe": "1h",
+          "wallet": 10000.0,
+          "stake": 1000.0,
+          "fee": 0.001
+        },
+        "calibration": {
+          "selected_weight": 1.0,
+          "validation_rows": 48,
+          "training_cutoff": "2025-04-10T00:00:00+00:00",
+          "validation_start": "2025-04-07T18:00:00+00:00",
+          "weight_scores": [
+            {
+              "weight": 0.0,
+              "rmse": 0.0525492372334072
+            },
+            {
+              "weight": 0.25,
+              "rmse": 0.05237691491497522
+            },
+            {
+              "weight": 0.5,
+              "rmse": 0.052243466231253116
+            },
+            {
+              "weight": 1.0,
+              "rmse": 0.0520942977348847
+            }
+          ]
+        },
+        "arms": {
+          "price_only": {
+            "weight": 0.0,
+            "metrics": {
+              "net_return": 9.286992253287885e-05,
+              "max_drawdown": 0.0039459695326582445,
+              "trades": 8,
+              "turnover": 1.6016945644870197,
+              "win_rate": 0.5
+            },
+            "risk": {
+              "sharpe": 0.21496891292069825,
+              "sortino": 0.33583993585585803,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.015873080763343178,
+              "rmse": 0.01983627251045611,
+              "direction_accuracy": 0.543859649122807,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "full_news": {
+            "weight": 1.0,
+            "metrics": {
+              "net_return": 0.0004318574037891487,
+              "max_drawdown": 0.0033602176590700195,
+              "trades": 7,
+              "turnover": 1.4018336910948839,
+              "win_rate": 0.7142857142857143
+            },
+            "risk": {
+              "sharpe": 1.2521161635545894,
+              "sortino": 1.7093046163977843,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.017132550028857642,
+              "rmse": 0.02117916754015826,
+              "direction_accuracy": 0.5877192982456141,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "fixed_25_news": {
+            "weight": 0.25,
+            "metrics": {
+              "net_return": -0.0014783134285883959,
+              "max_drawdown": 0.0053673304905550445,
+              "trades": 9,
+              "turnover": 1.8003220085799916,
+              "win_rate": 0.4444444444444444
+            },
+            "risk": {
+              "sharpe": -3.3563189005584766,
+              "sortino": -5.108542827783805,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.01616173864458156,
+              "rmse": 0.019995410078406956,
+              "direction_accuracy": 0.5526315789473685,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          },
+          "validation_selected": {
+            "weight": 1.0,
+            "metrics": {
+              "net_return": 0.0004318574037891487,
+              "max_drawdown": 0.0033602176590700195,
+              "trades": 7,
+              "turnover": 1.4018336910948839,
+              "win_rate": 0.7142857142857143
+            },
+            "risk": {
+              "sharpe": 1.2521161635545894,
+              "sortino": 1.7093046163977843,
+              "observations": 120,
+              "annualization": 8760,
+              "risk_free_rate": 0.0,
+              "minimum_observations": 24
+            },
+            "prediction": {
+              "mae": 0.017132550028857642,
+              "rmse": 0.02117916754015826,
+              "direction_accuracy": 0.5877192982456141,
+              "observations": 114,
+              "excluded_unavailable": 6,
+              "horizon_hours": 6
+            }
+          }
+        }
+      }
+    ]
+  },
+  "ppo": {
+    "status": "complete",
+    "warning": "三模型投票需要单模型三倍的训练预算；没有自动选优或上线。",
+    "source_sha256": "5b87fb1555a90a7bb0ef8c56bd1887d11a678a60a2a5d6f203cb527c28af8ba7",
+    "policy": "3 independent PPO models; majority action; all-different => hold",
+    "failures": [],
+    "groups": [
+      [
+        7,
+        42,
+        99
+      ],
+      [
+        17,
+        52,
+        109
+      ]
+    ],
+    "windows": [
+      {
+        "start": "2025-01-01",
+        "end": "2025-01-15",
+        "summary": {
+          "single_mean": 0.0002478513595303526,
+          "single_min": -0.003869797719204926,
+          "single_max": 0.004169464919470123,
+          "ensemble_mean": -0.002630751088807892,
+          "ensemble_min": -0.003161215209177448,
+          "ensemble_max": -0.0021002869684383363
+        },
+        "singles": [
+          {
+            "seed": 7,
+            "id": "model-9d1f51a137d84df0b14f1fbdc9fcff3b",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": 0.0034490236181601297,
+              "max_drawdown": 0.004342379125579332,
+              "trades": 15,
+              "turnover": 3.0064554790972577,
+              "win_rate": 0.4
+            }
+          },
+          {
+            "seed": 42,
+            "id": "model-974f33ea3e0e431aae5d1e3068666849",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": -0.003869797719204926,
+              "max_drawdown": 0.006100869478648185,
+              "trades": 11,
+              "turnover": 2.1983285308116067,
+              "win_rate": 0.18181818181818182
+            }
+          },
+          {
+            "seed": 99,
+            "id": "model-01402314940644febf0aefed61f9f35d",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": -0.0005475944584881764,
+              "max_drawdown": 0.003534693340001338,
+              "trades": 5,
+              "turnover": 1.0004528583999117,
+              "win_rate": 0.2
+            }
+          },
+          {
+            "seed": 17,
+            "id": "model-c535045d9f4149eaa194544f3509150b",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": 0.004169464919470123,
+              "max_drawdown": 0.0020094795405296573,
+              "trades": 2,
+              "turnover": 0.40457403895842853,
+              "win_rate": 1.0
+            }
+          },
+          {
+            "seed": 52,
+            "id": "model-db2319ceb1104cda9231a608c5f9bdab",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": 0.001523482822375355,
+              "max_drawdown": 0.0040048409960140585,
+              "trades": 13,
+              "turnover": 2.6041276104328075,
+              "win_rate": 0.38461538461538464
+            }
+          },
+          {
+            "seed": 109,
+            "id": "model-811358c3c812478a9f8466e1203d5f5d",
+            "period": {
+              "requested": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-01T00:00:00+00:00",
+                "end": "2025-01-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-10T00:00:00+00:00",
+                "end": "2025-01-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "metrics": {
+              "net_return": -0.0032374710251303895,
+              "max_drawdown": 0.0037015789873057203,
+              "trades": 12,
+              "turnover": 2.3991616906655353,
+              "win_rate": 0.25
+            }
+          }
+        ],
+        "groups": [
+          {
+            "seeds": [
+              7,
+              42,
+              99
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "disagreements": 107,
+            "three_way_ties": 40,
+            "metrics": {
+              "net_return": -0.003161215209177448,
+              "max_drawdown": 0.005728252071161455,
+              "trades": 10,
+              "turnover": 1.9988376224132356,
+              "win_rate": 0.2
+            }
+          },
+          {
+            "seeds": [
+              17,
+              52,
+              109
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "e78cc88bc28d0a21c7734e8baa7e739eb4b0ee3eeae4a718e37fb6f3b8bc2ff0",
+            "disagreements": 105,
+            "three_way_ties": 12,
+            "metrics": {
+              "net_return": -0.0021002869684383363,
+              "max_drawdown": 0.0053787697314765515,
+              "trades": 9,
+              "turnover": 1.7996994124440053,
+              "win_rate": 0.2222222222222222
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-01-15",
+        "end": "2025-01-29",
+        "summary": {
+          "single_mean": -0.0012878559624059,
+          "single_min": -0.0026348904612839563,
+          "single_max": 0.0016199307398712115,
+          "ensemble_mean": -0.0020847632693798968,
+          "ensemble_min": -0.0021596133795493966,
+          "ensemble_max": -0.002009913159210397
+        },
+        "singles": [
+          {
+            "seed": 7,
+            "id": "model-c0bbccd97926479791c03278eb631aba",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": -0.0023607678063646276,
+              "max_drawdown": 0.0023607678063646276,
+              "trades": 3,
+              "turnover": 0.5982374696632985,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seed": 42,
+            "id": "model-22c70d6d7b4748f2bda4a4f1636a3c68",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": -0.0026348904612839563,
+              "max_drawdown": 0.0038546512499340047,
+              "trades": 4,
+              "turnover": 0.7981632728115277,
+              "win_rate": 0.25
+            }
+          },
+          {
+            "seed": 99,
+            "id": "model-8d79e867abeb46d7bffa5d1596371d69",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": -0.0004038804726429479,
+              "max_drawdown": 0.002046136391059439,
+              "trades": 3,
+              "turnover": 0.6001963158432002,
+              "win_rate": 0.3333333333333333
+            }
+          },
+          {
+            "seed": 17,
+            "id": "model-5f771602106940e3aaade42a5722c929",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": 0.0016199307398712115,
+              "max_drawdown": 0.0037620298197545976,
+              "trades": 4,
+              "turnover": 0.8024223530929643,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 52,
+            "id": "model-0a90e9f2b28e4062a32e67b76324175d",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": -0.002082951608366468,
+              "max_drawdown": 0.0071026391127489985,
+              "trades": 6,
+              "turnover": 1.1991161645561899,
+              "win_rate": 0.6666666666666666
+            }
+          },
+          {
+            "seed": 109,
+            "id": "model-7e8fb16717f746a596f700c416c60d75",
+            "period": {
+              "requested": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-01-15T00:00:00+00:00",
+                "end": "2025-01-24T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-01-24T00:00:00+00:00",
+                "end": "2025-01-29T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "metrics": {
+              "net_return": -0.0018645761656486126,
+              "max_drawdown": 0.003504432278683689,
+              "trades": 4,
+              "turnover": 0.7989343581925441,
+              "win_rate": 0.25
+            }
+          }
+        ],
+        "groups": [
+          {
+            "seeds": [
+              7,
+              42,
+              99
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "disagreements": 94,
+            "three_way_ties": 8,
+            "metrics": {
+              "net_return": -0.0021596133795493966,
+              "max_drawdown": 0.003231092341640762,
+              "trades": 3,
+              "turnover": 0.5984388254458965,
+              "win_rate": 0.0
+            }
+          },
+          {
+            "seeds": [
+              17,
+              52,
+              109
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "eb19fd56e16cee631ab9eccc03d397281e49440fd257a4fb2a95cc906828b5c9",
+            "disagreements": 118,
+            "three_way_ties": 52,
+            "metrics": {
+              "net_return": -0.002009913159210397,
+              "max_drawdown": 0.007943799228079085,
+              "trades": 5,
+              "turnover": 0.9989890759167063,
+              "win_rate": 0.6
+            }
+          }
+        ]
+      },
+      {
+        "start": "2025-02-01",
+        "end": "2025-02-15",
+        "summary": {
+          "single_mean": 0.0009335631273188483,
+          "single_min": -0.0029261690057194034,
+          "single_max": 0.0026653799354710017,
+          "ensemble_mean": 0.0019249551831702627,
+          "ensemble_min": 0.001583705433246596,
+          "ensemble_max": 0.0022662049330939293
+        },
+        "singles": [
+          {
+            "seed": 7,
+            "id": "model-6f7272fc55a244b8ac2218455fea524a",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": 0.0026653799354710017,
+              "max_drawdown": 0.002029757036137614,
+              "trades": 7,
+              "turnover": 1.4040694493848562,
+              "win_rate": 0.7142857142857143
+            }
+          },
+          {
+            "seed": 42,
+            "id": "model-f395a1ccbd63449dbb3596fc0a630cde",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": 0.0023420956304791574,
+              "max_drawdown": 0.0034841186786428446,
+              "trades": 5,
+              "turnover": 1.0033454410715508,
+              "win_rate": 0.8
+            }
+          },
+          {
+            "seed": 99,
+            "id": "model-2001bd8c5448422a8b2e6b94ff992d80",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": 0.0010581935677047571,
+              "max_drawdown": 0.00298578359553614,
+              "trades": 8,
+              "turnover": 1.6026608544221272,
+              "win_rate": 0.625
+            }
+          },
+          {
+            "seed": 17,
+            "id": "model-6ef6ff010c9a4b179f85e2f45e8d6618",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": 0.0011254487283594017,
+              "max_drawdown": 0.001701627998267008,
+              "trades": 4,
+              "turnover": 0.8019273761044639,
+              "win_rate": 0.75
+            }
+          },
+          {
+            "seed": 52,
+            "id": "model-a445b7f90f784d33a8838020c7806109",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": -0.0029261690057194034,
+              "max_drawdown": 0.005666229374948983,
+              "trades": 10,
+              "turnover": 1.999072903898179,
+              "win_rate": 0.4
+            }
+          },
+          {
+            "seed": 109,
+            "id": "model-d8f0592b9d1d49cabcad4709c21fc220",
+            "period": {
+              "requested": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "train": {
+                "start": "2025-02-01T00:00:00+00:00",
+                "end": "2025-02-10T00:00:00+00:00"
+              },
+              "evaluation": {
+                "start": "2025-02-10T00:00:00+00:00",
+                "end": "2025-02-15T00:00:00+00:00"
+              },
+              "final_reserved_not_run": {
+                "start": "2025-10-01T00:00:00+00:00",
+                "end": "2026-01-01T00:00:00+00:00"
+              }
+            },
+            "data_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "metrics": {
+              "net_return": 0.0013364299076181752,
+              "max_drawdown": 0.0014007123046980707,
+              "trades": 4,
+              "turnover": 0.8021385684760942,
+              "win_rate": 0.75
+            }
+          }
+        ],
+        "groups": [
+          {
+            "seeds": [
+              7,
+              42,
+              99
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "disagreements": 112,
+            "three_way_ties": 10,
+            "metrics": {
+              "net_return": 0.001583705433246596,
+              "max_drawdown": 0.0022478165470164457,
+              "trades": 7,
+              "turnover": 1.402986692125372,
+              "win_rate": 0.5714285714285714
+            }
+          },
+          {
+            "seeds": [
+              17,
+              52,
+              109
+            ],
+            "status": "succeeded",
+            "price_snapshot_sha256": "9724f5501ec42cec06d4523197c90208fc9c88d55be313e3b3162157d4755a4f",
+            "disagreements": 109,
+            "three_way_ties": 9,
+            "metrics": {
+              "net_return": 0.0022662049330939293,
+              "max_drawdown": 0.0013996099584566712,
+              "trades": 7,
+              "turnover": 1.4036698748079022,
+              "win_rate": 0.7142857142857143
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
