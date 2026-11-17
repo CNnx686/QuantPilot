@@ -74,6 +74,38 @@ class EditInput(BaseModel):
     config: StrategyInput
 
 
+class ResearchWindow(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    start: date
+    end: date
+
+
+class RobustnessInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    windows: list[ResearchWindow] = Field(min_length=2, max_length=2)
+    seeds: list[int] = Field(min_length=2, max_length=3)
+
+    @model_validator(mode='after')
+    def validate_study(self):
+        if len(set(self.seeds)) != len(self.seeds) or any(s < 0 or s > 1000000 for s in self.seeds):
+            raise ValueError('Provide two or three distinct seeds between 0 and 1000000')
+        ordered = sorted(self.windows, key=lambda x: x.start)
+        if ordered[0].end > ordered[1].start:
+            raise ValueError('Research windows must not overlap')
+        for window in ordered:
+            if window.start < date(2025,1,1) or window.end > date(2025,10,1) or not 14 <= (window.end-window.start).days <= 31:
+                raise ValueError('Research windows must be 14 to 31 days within [2025-01-01, 2025-10-01); Q4 remains reserved')
+        return self
+
+
+def public_candidate(candidate):
+    from .terminal_metrics import evaluate_candidate
+    try:
+        return {**candidate, 'evaluation_metrics': evaluate_candidate(candidate)}
+    except Exception as exc:
+        return {**candidate, 'evaluation_metrics': None, 'evaluation_metrics_error': str(exc)[:500]}
+
+
 class SelectInput(BaseModel):
     model_config = ConfigDict(extra='forbid')
     candidate_id: str = Field(min_length=1, max_length=100)
@@ -160,6 +192,17 @@ def create_router():
         response.status_code = 201 if created else 200
         return store.public_job(job)
 
+    @router.post('/strategies/{identifier}/robustness')
+    def robustness(identifier: str, body: RobustnessInput, response: Response, idempotency_key: str = Header(min_length=1, max_length=100)):
+        strategy = invoke(store.get, 'strategies', identifier)
+        if strategy['config']['kind'] not in {'rl', 'prediction'}:
+            raise HTTPException(409, 'Robustness studies support prediction and RL strategies')
+        if strategy['config'].get('news'):
+            invoke(validate_news_configuration, strategy['config'])
+        job, created = invoke(store.enqueue, identifier, token(idempotency_key), 'robustness', body.model_dump(mode='json'))
+        response.status_code = 201 if created else 200
+        return store.public_job(job)
+
     @router.get('/jobs/{identifier}')
     def job(identifier: str):
         return store.public_job(invoke(store.get, 'jobs', identifier))
@@ -199,6 +242,13 @@ def create_router():
     def candidates(identifier: str):
         invoke(store.get, 'strategies', identifier)
         return [item for item in store.list_records('candidates') if item['strategy_id'] == identifier]
+
+    @router.get('/candidates/{identifier}/evaluation')
+    def candidate_evaluation(identifier: str):
+        candidate = invoke(store.get, 'candidates', identifier)
+        result = public_candidate(candidate)
+        return {'candidate_id': identifier, 'evaluation_metrics': result['evaluation_metrics'],
+                'error': result.get('evaluation_metrics_error')}
 
     @router.post('/strategies/{identifier}/select')
     def select(identifier: str, body: SelectInput):

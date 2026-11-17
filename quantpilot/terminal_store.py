@@ -115,15 +115,15 @@ def job_directory(key):
     return settings.HOME / 'artifacts' / 'terminal' / key
 
 
-def enqueue(strategy_id, token, mode='single'):
-    if mode not in {'single', 'comparison'}:
+def enqueue(strategy_id, token, mode='single', robustness=None):
+    if mode not in {'single', 'comparison', 'robustness'}:
         raise ValueError('Unknown experiment mode')
     with connect() as conn:
         strategy = read(conn, 'strategies', strategy_id)
         previous = conn.execute('SELECT record FROM jobs WHERE token=?', (token,)).fetchone()
         if previous:
             item = json.loads(previous['record'])
-            if item['strategy_id'] != strategy_id or item.get('mode', 'single') != mode:
+            if item['strategy_id'] != strategy_id or item.get('mode', 'single') != mode or (mode == 'robustness' and item.get('robustness') != robustness):
                 raise ValueError('Idempotency-Key belongs to another request')
             return item, False
         if sum(item['status'] in {'queued', 'running', 'cancelling'} for item in rows(conn, 'jobs')) >= 8:
@@ -133,7 +133,7 @@ def enqueue(strategy_id, token, mode='single'):
                 'config_sha256': digest(strategy['config']), 'status': 'queued', 'phase': 'queued',
                 'created_at': now(), 'started_at': None, 'finished_at': None,
                 'candidate_id': None, 'candidate_ids': [], 'mode': mode,
-                'comparison': None, 'error': None, 'process': None}
+                'comparison': None, 'robustness': robustness, 'error': None, 'process': None}
         conn.execute('INSERT INTO jobs VALUES(?,?,?)', (item['id'], token, dumps(item)))
         return item, True
 
@@ -186,7 +186,10 @@ def finish(key, candidate=None, error=None, candidates=None, comparison=None):
             return item
         cancelled = item['status'] == 'cancelling'
         completed = candidates if candidates is not None else [candidate] if candidate is not None else []
-        status = 'cancelled' if cancelled else 'failed' if error or not completed else 'succeeded'
+        robust_complete = (item.get('mode') == 'robustness' and comparison
+                           and comparison.get('status') in {'complete', 'partial'}
+                           and any(row.get('status') == 'succeeded' for row in comparison.get('rows', [])))
+        status = 'cancelled' if cancelled else 'failed' if error or (not completed and not robust_complete) else 'succeeded'
         if item.get('mode') == 'comparison' and status == 'succeeded':
             if (len(completed) != 2 or {value.get('variant') for value in completed} != {'price_only', 'price_news'}
                     or not comparison or not comparison.get('comparable')):
@@ -214,11 +217,15 @@ def finish(key, candidate=None, error=None, candidates=None, comparison=None):
             item['comparison'] = comparison
         if item.get('comparison') and status != 'succeeded':
             item['comparison'] = {**item['comparison'], 'status': status, 'comparable': False, 'delta': None}
-            for arm in item['comparison'].get('arms', {}).values():
+            arms = item['comparison'].get('arms', {})
+            for arm in arms.values() if isinstance(arms, dict) else []:
                 if arm.get('status') in {'running', 'pending'}:
                     arm.update(status=('not_run' if arm['status'] == 'pending' else
                                        'cancelled' if status == 'cancelled' else 'failed'),
                                error=error or ('Comparison cancelled' if status == 'cancelled' else 'Comparison interrupted'))
+            for row in item['comparison'].get('rows', []):
+                if row.get('status') in {'running', 'pending'}:
+                    row.update(status='cancelled' if status == 'cancelled' else 'failed', error=error or 'Study interrupted')
         item.update(status=status, phase=status, error=error, finished_at=now(), process=None)
         save(conn, 'jobs', item)
         return item

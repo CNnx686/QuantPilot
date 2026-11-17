@@ -12,6 +12,9 @@ def main(identifier):
     job = store.get('jobs', identifier)
     if job['status'] != 'running':
         raise RuntimeError('Task was cancelled before execution')
+    if job.get('mode') == 'robustness':
+        from .terminal_robustness import run
+        return run(job)
     directory = store.job_directory(identifier)
     directory.mkdir(parents=True, exist_ok=True)
     comparison = None

@@ -395,13 +395,16 @@ def run_training():
             comparison = None
             if (directory / 'comparison.json').is_file():
                 comparison = json.loads((directory / 'comparison.json').read_text(encoding='utf-8'))
-            if process.returncode != 0 or not any((directory / name).is_file() for name in ('candidate.json', 'completion.json')):
+            if process.returncode != 0 or not any((directory / name).is_file() for name in ('candidate.json', 'completion.json', 'robustness-completion.json')):
                 error = 'Training process failed; inspect the task log'
                 if (directory / 'error.json').is_file():
                     error = json.loads((directory / 'error.json').read_text(encoding='utf-8'))['error']
                 store.finish(job['id'], error=error, comparison=comparison)
             else:
-                if (directory / 'completion.json').is_file():
+                if (directory / 'robustness-completion.json').is_file():
+                    complete = json.loads((directory / 'robustness-completion.json').read_text(encoding='utf-8'))
+                    store.finish(job['id'], comparison=complete['comparison'])
+                elif (directory / 'completion.json').is_file():
                     complete = json.loads((directory / 'completion.json').read_text(encoding='utf-8'))
                     store.finish(job['id'], candidates=complete['candidates'], comparison=complete['comparison'])
                 else:

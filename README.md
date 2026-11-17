@@ -16,7 +16,7 @@ QuantPilot 是一个面向课程项目和个人研究的本机量化平台。用
 | --- | --- |
 | 策略工作台 | 当前公开行情、闭合小时线、模型动作、虚拟持仓、订单、成交、决策证据；暂停、恢复与停止 |
 | 策略管理 | 创建规则 / PPO / LightGBM 配置，选择现货品种、历史窗口、参数、资金；复制已有配置 |
-| 训练与回测 | 实际准备行情、本机训练与评估；查看阶段、错误、取消和重试；手动选择冻结候选 |
+| 训练与回测 | 实际准备行情、本机训练与评估；收益/回撤、Sharpe/Sortino、预测误差；多窗口/多种子研究；查看错误、取消和重试；手动选择普通任务的冻结候选 |
 | 新闻与因子 | GDELT 标题采样、事件来源与可用时间、四列新闻特征、价格 / 价格＋新闻对照 |
 | 数据与设置 | 查看数据、服务与环境状态；明确不可用的依赖和能力 |
 
@@ -140,6 +140,14 @@ cd QuantPilot
 
 新闻来自 UTC 00/06/12/18 各一个 15 分钟批次的固定采样，不是全量新闻。首次当前采集可能晚于最近的小时截止，账户会等待后续合格闭合线；缺失数据不补零，也不偷偷切换成价格模型。已有效运行后出现新闻故障，数据恢复还需要人工确认。完整说明见[新闻模型使用说明](docs/product/personal-quant-v1/news-user-guide.md)。
 
+### 查看评估指标与多窗口研究
+
+在「训练与回测」查看普通候选的评估区，可看到按小时净值计算的 **Sharpe、Sortino**；LightGBM 另显示 **MAE、RMSE、方向准确率**。指标由保存的原始产物重新核验与计算，不修改原模型。短窗口的年化比率只用于描述结果，不能据此推断长期表现。
+
+选择预测或 RL 策略，点击「多窗口 / 多种子研究」，填写两个互不重叠的 14–31 天窗口及 2–3 个不同种子。新闻关闭时仅运行价格模型，开启时每组同时运行价格和新闻两臂；最多 12 次训练。页面逐行保留结果、失败和错误，适合检查结果是否依赖某个种子或某段行情。**研究结果不会发布为可启动候选，也不会替换当前模拟账户**；要运行某个配置，请另行提交普通训练或新闻对照并手动选用。
+
+指标口径、操作细节与完整真实结果见[评估指标与稳健性研究](docs/product/personal-quant-v1/evaluation-robustness.md)。多种子结果共享各自窗口的行情，不是多份独立市场样本；确定性 LightGBM 在当前参数下也可能跨种子得到完全相同的结果。
+
 ## 代码和本机数据在哪里
 
 ```text
@@ -150,6 +158,8 @@ quantpilot/                FastAPI、任务、行情、模型、新闻与模拟�
   terminal_engine.py       价格策略训练/回测与模型校验
   terminal_rl.py           价格 PPO 环境和训练
   terminal_news*.py        新闻采集、时序因子、新闻模型和 PPO
+  terminal_metrics.py      从冻结产物计算风险与预测评估指标
+  terminal_robustness.py   有限窗口/种子研究调度与逐行证据
   terminal_worker.py       当前模型推理、实例控制与模拟执行
 strategies/、models/        旧 Freqtrade 策略和 FreqAI 模型扩展
 scripts/                   RL 安装及其他维护脚本
@@ -215,10 +225,11 @@ cd ../..
 - [真实数据主流程说明](docs/product/personal-quant-v1/live-workflow-guide.md)：第一阶段文档；末尾新闻“尚未接入”的描述属于当时状态，新闻以以下第二阶段说明为准。
 - [新闻模型操作说明](docs/product/personal-quant-v1/news-user-guide.md)
 - [新闻阶段真实验证记录](docs/product/personal-quant-v1/news-verification.md)：包含模型、数据、时序、对照和当前模拟证据。
+- [评估指标与稳健性研究](docs/product/personal-quant-v1/evaluation-robustness.md)：Sharpe/Sortino、预测误差定义与多窗口/多种子的真实研究记录。
 - [完整 V1 验收目标](docs/product/personal-quant-v1/acceptance.md)与[开发路线](docs/product/personal-quant-v1/roadmap.md)：目标清单不等于全部功能已完成。
 - [旧 Freqtrade/FreqAI 工作区](docs/legacy-workspace.md)及[旧演示流程](docs/答辩演示操作流程.md)
 
-2026-11-17 发布前重新验证：主环境 **287 passed、2 skipped、1 warning**，耗时 186.48 秒；隔离 RL 环境专项 **6 passed**，旧工作区前端构建通过。两项跳过对应主环境未安装 Gymnasium 的 RL 检查，已在隔离环境运行；warning 为已有 Starlette TestClient/httpx 弃用提示。这些结果来自现有开发环境，不代表已在全新电脑验证从零安装。
+2026-11-17 成员预览版发布前重新验证：主环境 **287 passed、2 skipped、1 warning**，耗时 186.48 秒；隔离 RL 环境专项 **6 passed**，旧工作区前端构建通过。两项跳过对应主环境未安装 Gymnasium 的 RL 检查，已在隔离环境运行；warning 为已有 Starlette TestClient/httpx 弃用提示。这些结果来自该预览版的现有开发环境，不代表已在全新电脑验证从零安装；之后新增的评估指标和多窗口研究以[专项记录](docs/product/personal-quant-v1/evaluation-robustness.md)为准。
 
 2026-10-25 另有实际新闻开关训练与当前行情模拟的[阶段记录](docs/product/personal-quant-v1/news-verification.md)，其结果属于对应版本、环境和时刻。该次两组新闻模型的收益均低于价格模型，报告保留原始结果，没有以收益提升作为完成依据。
 
